@@ -2,6 +2,8 @@
 # Install script for Sn1per CE
 # Created by @xer0dayz - https://sn1persecurity.com
 
+# TODO: ADD NODEJS & WEBSOCKETD INSTALL
+
 OKBLUE='\033[94m'
 OKRED='\033[91m'
 OKGREEN='\033[92m'
