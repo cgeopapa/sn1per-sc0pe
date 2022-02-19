@@ -2,10 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const shell = require('shelljs');
+const fs = require('fs');
+
+const scansFolder = '/usr/share/sniper/loot/workspace/';
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:4200'
+}));
+app.set('json spaces', 200);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -32,6 +38,13 @@ function executeShell(request, response, next) {
   // })
 }
 app.get('/exec', executeShell);
+
+function getScans(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  const scans = fs.readdirSync(scansFolder);
+  res.json(scans);
+}
+app.get("/scans", getScans)
 
 const PORT = 3001;
 

@@ -1,0 +1,22 @@
+<div class="p-2">
+    <h2 class="text-primary m-2">Scans</h2>
+    <p-table [value]="scans" styleClass="p-datatable-striped" [resizableColumns]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pResizableColumn>Name</th>
+                <th pResizableColumn class="w-15rem">Controls</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-scan>
+            <tr>
+                <td>{{scan}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-play" pTooltip="Run scan" tooltipPosition="top"
+                        class="p-button-rounded mr-2"></button>
+                    <button pButton pRipple icon="pi pi-eye" pTooltip="View scan logs" tooltipPosition="top"
+                        class="p-button-rounded p-button-secondary mr-2"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
