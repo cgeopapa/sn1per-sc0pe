@@ -4,7 +4,12 @@
 
 export const environment = {
   production: false,
-  url: "http://localhost:3001/"
+  url: "http://localhost:3001/",
+  scanTypes: [
+    {name: "Normal", n: "normal"},
+    {name: "Stealth", n: "stealth"},
+    {name: "Nuke", n: "nuke"}
+  ]
 };
 
 /*

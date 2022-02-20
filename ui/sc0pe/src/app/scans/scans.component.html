@@ -12,11 +12,41 @@
                 <td>{{scan}}</td>
                 <td>
                     <button pButton pRipple icon="pi pi-play" pTooltip="Run scan" tooltipPosition="top"
-                        class="p-button-rounded mr-2"></button>
+                        class="p-button-rounded mr-2" (click)="runScan(scan)"></button>
                     <button pButton pRipple icon="pi pi-eye" pTooltip="View scan logs" tooltipPosition="top"
-                        class="p-button-rounded p-button-secondary mr-2"></button>
+                        class="p-button-rounded p-button-secondary mr-2" (click)="viewScan(scan)"></button>
+                    <button pButton pRipple icon="pi pi-trash" pTooltip="Delete this scan and its results" tooltipPosition="top"
+                        class="p-button-rounded p-button-warning mr-2" (click)="deleteScan(scan)"></button>
                 </td>
             </tr>
         </ng-template>
     </p-table>
+</div>
+<div class="surface-50 p-2">
+    <h2 class="text-primary m-2 mb-4">New Scan</h2>
+    <div class="p-fluid grid">
+        <div class="field col">
+            <span class="p-float-label">
+                <p-dropdown [options]="scanTypes" [(ngModel)]="selectedScanType" [autoDisplayFirst]="false"
+                    optionLabel="name" inputId="scanType" optionValue="n"></p-dropdown>
+                <label for="scanType">Scan Type</label>
+            </span>
+        </div>
+        <div class="field col">
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="ipDomain"/>
+                <label for="scanType">IP / Domain</label>
+            </span>
+        </div>
+        <div class="field col">
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="scanName"/>
+                <label for="scanType">Scan Name</label>
+            </span>
+        </div>
+    </div>
+    <div class="flex">
+        <button pButton pRipple type="button" label="Create" (click)="createScan()"></button>
+        <button pButton pRipple type="button" label="Create and Run" class="p-button-secondary ml-2"></button>
+    </div>
 </div>

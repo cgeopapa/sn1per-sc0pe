@@ -15,27 +15,13 @@ app.set('json spaces', 200);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-function executeShell(request, response, next) {
-  const headers = {
-    'Content-Type': 'text/event-stream',
-    'Connection': 'keep-alive',
-    'Cache-Control': 'no-cache'
-  };
-  
-  const ip = request.query.ip;
-  const std = shell.exec("sudo ping google.com > test.out & websocketd --port=8080 tail -f -n 1000000 test.out &",
+function executeShell(req, res) {
+  const scan = req.query.scan;
+  const path = `${scansFolder}${scan}`;
+  shell.exec(`sudo sh ${path}/scan.sh > ${path}/scan.out & websocketd --address="${scan}" --port=3333 tail -f -n 1000000 ${path}/scan.out`,
     {async: false}
   );
-  response.writeHead(200, headers);
-
-  // std.stdout.on("data", function(data) {
-  //   console.log(data);
-  //   return response.write(`data: ${JSON.stringify(data)}\n\n`);
-  // })
-
-  // std.stdout.on("end", function() {
-  //   response.connection.destroy();
-  // })
+  res.sendStatus(200);
 }
 app.get('/exec', executeShell);
 
@@ -45,6 +31,26 @@ function getScans(req, res) {
   res.json(scans);
 }
 app.get("/scans", getScans)
+
+function deleteScan(req, res) {
+  const scan = req.query.scan;
+  fs.rmSync(scansFolder+"/"+scan, {recursive: true, force: true});
+  res.sendStatus(200);
+}
+app.delete("/scan", deleteScan)
+
+function createScan(req, res) {
+  const scan = req.query.scan;
+  const path = `${scansFolder}/${scan}`
+  fs.mkdirSync(path)
+  // ip type 
+  const ip = req.query.ip;
+  const type = req.query.type
+  fs.writeFileSync(`${path}/scan.sh`, `sudo sniper -t ${ip} -m ${type} -w ${scan}`)
+
+  res.sendStatus(200);
+}
+app.get("/scan", createScan)
 
 const PORT = 3001;
 

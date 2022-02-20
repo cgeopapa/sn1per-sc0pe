@@ -13,16 +13,16 @@ import {TooltipModule} from 'primeng/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NewScanComponent } from './new-scan/new-scan.component';
 import { ScansComponent } from './scans/scans.component';
 import { HomeComponent } from './home/home.component';
+import { TerminalComponent } from './terminal/terminal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NewScanComponent,
     ScansComponent,
-    HomeComponent
+    HomeComponent,
+    TerminalComponent
   ],
   imports: [
     BrowserModule,
