@@ -11,9 +11,10 @@ const scansFolder = '/usr/share/sniper/loot/workspace/';
 const app = express();
 const server = http.createServer(app);
 
+const scanStatusPath = "../scans.json"
 let scanObjects = {};
 let scanStatus = {};
-const scansFile = fs.readFileSync("./scans.json")
+const scansFile = fs.readFileSync(scanStatusPath)
 scanStatus = JSON.parse(scansFile);
 
 let wsCons = [];
@@ -28,13 +29,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const wss = new ws.Server({ server });
 wss.on('connection', sock => {
   wsCons.push(sock);
-  const scansFile = fs.readFileSync("./scans.json")
+  const scansFile = fs.readFileSync(scanStatusPath)
   scanStatus = JSON.parse(scansFile);
   wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
 
   sock.on('message', function(msg) {
     if(msg.toString().startsWith("pls ")) {
-      const scan = msg.toString().substring(5);
+      const scan = msg.toString().substring(4);
       const path = `${scansFolder}${scan}`;
       const e = shell.exec(`tail -n1000 -f ${path}/scan.out`, {async: true});
       e.stdout.on('data', function(data) {
@@ -51,7 +52,7 @@ function executeShell(req, res) {
   console.log("Request to execute ", scan)
 
   scanStatus[scan] = true;
-  fs.writeFile("./scans.json", JSON.stringify(scanStatus), err => {
+  fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
     if(err) console.log(err);
   });
   wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
@@ -59,7 +60,7 @@ function executeShell(req, res) {
 
   e.stdout.on('end', function() {
     scanStatus[scan] = false;
-    fs.writeFile("./scans.json", JSON.stringify(scanStatus), err => {
+    fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
       if(err) console.log(err);
     });
     wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
@@ -71,7 +72,7 @@ function getScans(req, res) {
   res.setHeader('Content-Type', 'application/json');
   const scans = fs.readdirSync(scansFolder);
 
-  const scansFile = fs.readFileSync("./scans.json")
+  const scansFile = fs.readFileSync(scanStatusPath)
   scanStatus = JSON.parse(scansFile);
   wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
   
@@ -83,7 +84,7 @@ function deleteScan(req, res) {
   fs.rmSync(scansFolder+"/"+scan, {recursive: true, force: true});
 
   delete scanStatus[scan];
-  fs.writeFile("./scans.json", JSON.stringify(scanStatus), err => {
+  fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
     if(err) console.log(err);
   });
   wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
@@ -99,7 +100,7 @@ function createScan(req, res) {
   const type = req.query.type
   fs.writeFileSync(`${path}/scan.sh`, `sudo sniper -t ${ip} -m ${type} -w ${scan}`)
   scanStatus[scan] = false;
-  fs.writeFile("./scans.json", JSON.stringify(scanStatus), err => {
+  fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
     if(err) console.log(err);
   });
   wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
@@ -112,7 +113,7 @@ function killScan(req, res) {
   scanObjects[scan].kill();
 
   scanStatus[scan] = false;
-  fs.writeFile("./scans.json", JSON.stringify(scanStatus), err => {
+  fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
     if(err) console.log(err);
   });
   wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
