@@ -13,6 +13,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.2",
-    "shelljs": "^0.8.5"
+    "rxjs": "^7.5.4",
+    "shelljs": "^0.8.5",
+    "ws": "^8.5.0"
   }
 }

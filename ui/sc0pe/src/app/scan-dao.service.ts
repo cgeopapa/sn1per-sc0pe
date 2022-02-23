@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { webSocket } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -26,6 +27,13 @@ export class ScanDaoService {
     return firstValueFrom(del);
   }
 
+  public killScan(scan: string) {
+    const del = this.http.get(environment.url+"killscan", {
+      params: new HttpParams().append("scan", scan)
+    })
+    return firstValueFrom(del);
+  }
+
   public createScan(ip: string, type: string, scan: string) {
     const create = this.http.get(environment.url+"scan", {
       params: new HttpParams().appendAll({
@@ -42,5 +50,15 @@ export class ScanDaoService {
       params: new HttpParams().set("scan", scan)
     })
     return firstValueFrom(run);
+  }
+
+  public getScanStatus() {
+    return webSocket(environment.ws);
+  }
+
+  public getScanStdout(scan: string) {
+    const stdout = webSocket(environment.ws);
+    stdout.next("pls "+scan);
+    return stdout;
   }
 }

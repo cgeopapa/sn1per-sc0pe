@@ -9,14 +9,16 @@
         </ng-template>
         <ng-template pTemplate="body" let-scan>
             <tr>
-                <td>{{scan}}</td>
+                <td> <i class="pi pi-spin pi-spinner" *ngIf="scanStatus[scan]"></i> {{scan}}</td>
                 <td>
                     <button pButton pRipple icon="pi pi-play" pTooltip="Run scan" tooltipPosition="top"
                         class="p-button-rounded mr-2" (click)="runScan(scan)"></button>
                     <button pButton pRipple icon="pi pi-eye" pTooltip="View scan logs" tooltipPosition="top"
                         class="p-button-rounded p-button-secondary mr-2" (click)="viewScan(scan)"></button>
+                    <button pButton pRipple icon="pi pi-stop" pTooltip="Kill this scan" tooltipPosition="top"
+                        class="p-button-rounded p-button-warning mr-2" (click)="killScan(scan)"></button>
                     <button pButton pRipple icon="pi pi-trash" pTooltip="Delete this scan and its results" tooltipPosition="top"
-                        class="p-button-rounded p-button-warning mr-2" (click)="deleteScan(scan)"></button>
+                        class="p-button-rounded p-button-danger mr-2" (click)="deleteScan(scan)"></button>
                 </td>
             </tr>
         </ng-template>

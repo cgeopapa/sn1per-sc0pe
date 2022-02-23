@@ -9,6 +9,7 @@ import { ScanDaoService } from '../scan-dao.service';
 })
 export class ScansComponent implements OnInit {
   scans: any[] = [];
+  scanStatus: any = {};
 
   public selectedScanType: string | null = null;
   public ipDomain: string | null = null;
@@ -21,6 +22,15 @@ export class ScansComponent implements OnInit {
 
   ngOnInit(): void {
     this.getScans();
+
+    this.dao.getScanStatus().subscribe((msg: any) => {
+      this.scanStatus = msg;
+      console.log(msg);
+    })
+  }
+
+  killScan(scan: string) {
+    this.dao.killScan(scan).finally(() => this.getScans());
   }
 
   deleteScan(scan: string) {
