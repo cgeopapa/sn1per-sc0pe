@@ -5,11 +5,13 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const shell = require('shelljs');
 const fs = require('fs');
+const Convert = require('ansi-to-html');
 
 const scansFolder = '/usr/share/sniper/loot/workspace/';
 
 const app = express();
 const server = http.createServer(app);
+const convert = new Convert();
 
 const scanStatusPath = "../scans.json"
 let scanObjects = {};
@@ -34,12 +36,14 @@ wss.on('connection', sock => {
   wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
 
   sock.on('message', function(msg) {
-    if(msg.toString().startsWith("pls ")) {
+    const s = msg.toString();
+    console.log(s)
+    if(s.startsWith("pls ")) {
       const scan = msg.toString().substring(4);
       const path = `${scansFolder}${scan}`;
       const e = shell.exec(`tail -n1000 -f ${path}/scan.out`, {async: true});
       e.stdout.on('data', function(data) {
-        sock.send(data);
+        sock.send(convert.toHtml(data));
       })
     }
   })

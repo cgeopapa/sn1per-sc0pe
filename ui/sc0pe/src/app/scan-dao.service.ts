@@ -57,8 +57,12 @@ export class ScanDaoService {
   }
 
   public getScanStdout(scan: string) {
-    const stdout = webSocket(environment.ws);
-    stdout.next("pls "+scan);
+    const stdout = webSocket({
+      url: environment.ws,
+      deserializer: (e: any) => e.data.toString(),
+      serializer: (e: any) => e.toString()
+    });
+    stdout.next('pls '+scan);
     return stdout;
   }
 }
