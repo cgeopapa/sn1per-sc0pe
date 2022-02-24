@@ -12,11 +12,9 @@
                 <td> <i class="pi pi-spin pi-spinner" *ngIf="scanStatus[scan]"></i> {{scan}}</td>
                 <td>
                     <button pButton pRipple icon="pi pi-play" pTooltip="Run scan" tooltipPosition="top"
-                        class="p-button-rounded mr-2" (click)="runScan(scan)"></button>
+                        class="p-button-rounded mr-2" (click)="runScan(scan)" [disabled]="scanStatus[scan]"></button>
                     <button pButton pRipple icon="pi pi-eye" pTooltip="View scan logs" tooltipPosition="top"
                         class="p-button-rounded p-button-secondary mr-2" (click)="viewScan(scan)"></button>
-                    <button pButton pRipple icon="pi pi-stop" pTooltip="Kill this scan" tooltipPosition="top"
-                        class="p-button-rounded p-button-warning mr-2" (click)="killScan(scan)"></button>
                     <button pButton pRipple icon="pi pi-trash" pTooltip="Delete this scan and its results" tooltipPosition="top"
                         class="p-button-rounded p-button-danger mr-2" (click)="deleteScan(scan)"></button>
                 </td>
@@ -42,9 +40,40 @@
         </div>
         <div class="field col">
             <span class="p-float-label">
+                <p-inputNumber [(ngModel)]="port" [min]="1" [max]="65535"></p-inputNumber>
+                <label for="scanType">Port</label>
+            </span>
+        </div>
+        <div class="field col">
+            <span class="p-float-label">
+                <p-dropdown [options]="scheduleTypes" [(ngModel)]="selectedScheduleType" [autoDisplayFirst]="false"
+                    optionLabel="name" inputId="scanType" optionValue="n" [showClear]="true"></p-dropdown>
+                <label for="scanType">Scan Type</label>
+            </span>
+        </div>
+        <div class="field col">
+            <span class="p-float-label">
                 <input type="text" pInputText [(ngModel)]="scanName"/>
                 <label for="scanType">Scan Name</label>
             </span>
+        </div>
+    </div>
+    <div class="flex">
+        <div class="field-checkbox mr-4">
+            <p-checkbox [(ngModel)]="fp" [binary]="true" inputId="fp"></p-checkbox>
+            <label for="fp">Full Port Scan</label>
+        </div>
+        <div class="field-checkbox mr-4">
+            <p-checkbox value="Brute Force" [(ngModel)]="b"></p-checkbox>
+            <label for="fp">Brute Force</label>
+        </div>
+        <div class="field-checkbox mr-4">
+            <p-checkbox value="OSINT" [(ngModel)]="o"></p-checkbox>
+            <label for="fp">OSINT</label>
+        </div>
+        <div class="field-checkbox mr-4">
+            <p-checkbox value="Recon" [(ngModel)]="r"></p-checkbox>
+            <label for="fp">Recon</label>
         </div>
     </div>
     <div class="flex">

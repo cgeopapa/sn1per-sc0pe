@@ -12,9 +12,17 @@ export class ScansComponent implements OnInit {
   scanStatus: any = {};
 
   public selectedScanType: string | null = null;
+  public selectedScheduleType: string | null = null;
   public ipDomain: string | null = null;
   public scanName: string | null = null;
+  public port: number | null = null;
+  public fp = false;
+  public b = false;
+  public o = false;
+  public r = false;
+
   public readonly scanTypes: any[] = environment.scanTypes;
+  public readonly scheduleTypes: any[] = environment.schedule;
 
   constructor(
     private dao: ScanDaoService
@@ -28,10 +36,6 @@ export class ScansComponent implements OnInit {
     })
   }
 
-  killScan(scan: string) {
-    this.dao.killScan(scan).finally(() => this.getScans());
-  }
-
   deleteScan(scan: string) {
     this.dao.deleteScan(scan).finally(() => this.getScans());
   }
@@ -41,7 +45,17 @@ export class ScansComponent implements OnInit {
   }
 
   public createScan() {
-    this.dao.createScan(this.ipDomain!, this.selectedScanType!, this.scanName!).finally(() => {
+    this.dao.createScan(
+      this.ipDomain!, 
+      this.selectedScanType!, 
+      this.scanName!,
+      this.port!,
+      this.selectedScheduleType!,
+      this.fp,
+      this.b,
+      this.o,
+      this.r
+    ).finally(() => {
       this.getScans();
       this.selectedScanType = this.ipDomain = this.scanName = null;
     });

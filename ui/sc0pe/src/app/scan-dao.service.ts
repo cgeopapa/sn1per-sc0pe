@@ -34,12 +34,18 @@ export class ScanDaoService {
     return firstValueFrom(del);
   }
 
-  public createScan(ip: string, type: string, scan: string) {
+  public createScan(ip: string, type: string, scan: string, port: number, sch: string, fp: boolean, b: boolean, o: boolean, r: boolean) {
     const create = this.http.get(environment.url+"scan", {
       params: new HttpParams().appendAll({
         "ip": ip,
         "type": type,
         "scan": scan,
+        "port": port,
+        "sch": sch,
+        "fp": fp,
+        "b": b,
+        "o": o,
+        "r": r
       })
     })
     return firstValueFrom(create);

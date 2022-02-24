@@ -9,7 +9,18 @@ export const environment = {
   scanTypes: [
     {name: "Normal", n: "normal"},
     {name: "Stealth", n: "stealth"},
-    {name: "Nuke", n: "nuke"}
+    {name: "Discover", n: "discover"},
+    {name: "Port", n: "port"},
+    {name: "Fullport Only", n: "fp"},
+    {name: "Web", n: "web"},
+    {name: "HTTP web port", n: "webporthttp"},
+    {name: "HTTPS web port", n: "webporthttps"},
+    {name: "Webscan", n: "webscan"},
+  ],
+  schedule: [
+    {name: "Daily", n: "daily"},
+    {name: "Weekly", n: "weekly"},
+    {name: "Monthly", n: "monthly"}
   ]
 };
 

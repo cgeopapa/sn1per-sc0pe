@@ -36,7 +36,7 @@ wss.on('connection', sock => {
     if(s.startsWith("pls ")) {
       const scan = msg.toString().substring(4);
       const path = `${scansFolder}${scan}`;
-      const e = shell.exec(`tail -n1000 -f ${path}/scan.out`, {async: true});
+      const e = shell.exec(`tail -n1000 -f ${path}/scan.out`, {async: true, silent: true});
       e.stdout.on('data', function(data) {
         sock.send(convert.toHtml(data));
       })
@@ -102,24 +102,14 @@ function createScan(req, res) {
   const path = `${scansFolder}/${scan}`
   fs.mkdirSync(path)
   const ip = req.query.ip;
-  const type = req.query.type
-  fs.writeFileSync(`${path}/scan.sh`, `sudo sniper -t ${ip} -m ${type} -w ${scan}`)
-  scanStatus[scan] = false;
-  fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
-    if(err) console.log(err);
-  });
-  wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
+  const type = req.query.type;
+  
+  const fp = req.query.fp ? " -fp" : "";
+  const b = req.query.b ? " -b" : "";
+  const o = req.query.o ? " -o" : "";
+  const r = req.query.r ? " -r" : "";
 
-  res.sendStatus(200);
-}
-
-function killScan(req, res) {
-  const scan = req.query.scan;
-  console.log("Request to kill ", scan)
-  if(scanObjects[scan]) {
-    scanObjects[scan].kill('SIGKILL');
-  }
-
+  fs.writeFileSync(`${path}/scan.sh`, `sudo sniper -t ${ip} -m ${type} ${fp}${b}${o}${r} -w ${scan}`)
   scanStatus[scan] = false;
   fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
     if(err) console.log(err);
@@ -131,7 +121,6 @@ function killScan(req, res) {
 
 app.get('/exec', executeShell);
 app.get("/scan", createScan);
-app.get("/killscan", killScan);
 app.delete("/scan", deleteScan);
 app.get("/scans", getScans);
 

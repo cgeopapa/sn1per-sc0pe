@@ -10,6 +10,8 @@ import {ButtonModule} from 'primeng/button';
 import {RippleModule} from 'primeng/ripple';
 import {TableModule} from 'primeng/table';
 import {TooltipModule} from 'primeng/tooltip';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {CheckboxModule} from 'primeng/checkbox';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,6 +38,8 @@ import { TerminalComponent } from './terminal/terminal.component';
     RippleModule,
     TableModule,
     TooltipModule,
+    InputNumberModule,
+    CheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
