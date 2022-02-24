@@ -24,8 +24,7 @@ export class ScansComponent implements OnInit {
     this.getScans();
 
     this.dao.getScanStatus().subscribe((msg: any) => {
-      this.scanStatus = msg;
-      console.log(msg);
+      this.scanStatus = JSON.parse(msg);
     })
   }
 

@@ -53,7 +53,13 @@ export class ScanDaoService {
   }
 
   public getScanStatus() {
-    return webSocket(environment.ws);
+    const ws = webSocket({
+      url: environment.ws,
+      deserializer: (e: any) => e.data.toString(),
+      serializer: (e: any) => e.toString()
+    });
+    ws.next("scans");
+    return ws;
   }
 
   public getScanStdout(scan: string) {

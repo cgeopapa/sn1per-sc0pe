@@ -30,14 +30,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const wss = new ws.Server({ server });
 wss.on('connection', sock => {
-  wsCons.push(sock);
-  const scansFile = fs.readFileSync(scanStatusPath)
-  scanStatus = JSON.parse(scansFile);
-  wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
-
   sock.on('message', function(msg) {
     const s = msg.toString();
-    console.log(s)
+    console.log(s);
     if(s.startsWith("pls ")) {
       const scan = msg.toString().substring(4);
       const path = `${scansFolder}${scan}`;
@@ -45,6 +40,12 @@ wss.on('connection', sock => {
       e.stdout.on('data', function(data) {
         sock.send(convert.toHtml(data));
       })
+    }
+    else if(s === "scans") {
+      wsCons.push(sock);
+      const scansFile = fs.readFileSync(scanStatusPath)
+      scanStatus = JSON.parse(scansFile);
+      wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
     }
   })
 })
@@ -114,7 +115,10 @@ function createScan(req, res) {
 
 function killScan(req, res) {
   const scan = req.query.scan;
-  scanObjects[scan].kill();
+  console.log("Request to kill ", scan)
+  if(scanObjects[scan]) {
+    scanObjects[scan].kill('SIGKILL');
+  }
 
   scanStatus[scan] = false;
   fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
