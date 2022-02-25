@@ -107,7 +107,7 @@ function createScan(req, res) {
   const fp = req.query.fp ? " -fp" : "";
   const b = req.query.b ? " -b" : "";
   const o = req.query.o ? " -o" : "";
-  const r = req.query.r ? " -r" : "";
+  const r = req.query.r ? " -re" : "";
 
   fs.writeFileSync(`${path}/scan.sh`, `sudo sniper -t ${ip} -m ${type} ${fp}${b}${o}${r} -w ${scan}`)
   scanStatus[scan] = false;

@@ -31,24 +31,28 @@
                     optionLabel="name" inputId="scanType" optionValue="n"></p-dropdown>
                 <label for="scanType">Scan Type</label>
             </span>
+            <small class="p-error" *ngIf="submitted && invalidScanType">Scan Type is required.</small>
         </div>
         <div class="field col">
             <span class="p-float-label">
                 <input type="text" pInputText [(ngModel)]="ipDomain"/>
                 <label for="scanType">IP / Domain</label>
             </span>
+            <small class="p-error" *ngIf="submitted && invalidIpDomain">IP or Domain is required.</small>
         </div>
         <div class="field col">
             <span class="p-float-label">
                 <p-inputNumber [(ngModel)]="port" [min]="1" [max]="65535"></p-inputNumber>
                 <label for="scanType">Port</label>
             </span>
+            <small class="p-error" *ngIf="submitted && invalidPort">Port is required.</small>
         </div>
         <div class="field col">
             <span class="p-float-label">
                 <p-dropdown [options]="scheduleTypes" [(ngModel)]="selectedScheduleType" [autoDisplayFirst]="false"
-                    optionLabel="name" inputId="scanType" optionValue="n" [showClear]="true"></p-dropdown>
-                <label for="scanType">Scan Type</label>
+                    optionLabel="name" inputId="scanType" optionValue="n" [showClear]="true"
+                    ></p-dropdown>
+                <label for="scanType">Schedule</label>
             </span>
         </div>
         <div class="field col">
@@ -56,6 +60,7 @@
                 <input type="text" pInputText [(ngModel)]="scanName"/>
                 <label for="scanType">Scan Name</label>
             </span>
+            <small class="p-error" *ngIf="submitted && invalidScanName">Scan Name is required and MUST be unique.</small>
         </div>
     </div>
     <div class="flex">
