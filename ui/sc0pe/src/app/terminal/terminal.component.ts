@@ -27,10 +27,12 @@ export class TerminalComponent implements OnInit {
     });
     this.pre = document.getElementById("pre");
     this.dao.getScanStdout(this.scan).subscribe((d: any) => {
-      if(!d.startsWith("{\"test")) {
-        this.pre!.innerHTML += d;
-      }
+      this.pre!.innerHTML += d;
+      this.scrollToBottom();
     })
   }
-
+  
+  public scrollToBottom() {
+    window.scrollTo(0,document.body.scrollHeight);
+  }
 }
