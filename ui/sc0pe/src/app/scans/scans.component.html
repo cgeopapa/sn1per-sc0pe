@@ -69,16 +69,16 @@
             <label for="fp">Full Port Scan</label>
         </div>
         <div class="field-checkbox mr-4">
-            <p-checkbox value="Brute Force" [(ngModel)]="b"></p-checkbox>
-            <label for="fp">Brute Force</label>
+            <p-checkbox [(ngModel)]="b" [binary]="true" inputId="b"></p-checkbox>
+            <label for="b">Brute Force</label>
         </div>
         <div class="field-checkbox mr-4">
-            <p-checkbox value="OSINT" [(ngModel)]="o"></p-checkbox>
-            <label for="fp">OSINT</label>
+            <p-checkbox [(ngModel)]="o" [binary]="true" inputId="o"></p-checkbox>
+            <label for="o">OSINT</label>
         </div>
         <div class="field-checkbox mr-4">
-            <p-checkbox value="Recon" [(ngModel)]="r"></p-checkbox>
-            <label for="fp">Recon</label>
+            <p-checkbox [(ngModel)]="r" [binary]="true" inputId="re"></p-checkbox>
+            <label for="re">Recon</label>
         </div>
     </div>
     <div class="flex">
