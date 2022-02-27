@@ -50,7 +50,7 @@ export class ScansComponent implements OnInit {
     this.dao.getAllScans().then((s: any) => this.scans = s)
   }
 
-  public createScan() {
+  public createScan(shouldRun = false) {
     this.submitted = true;
     
     this.invalidScanType = !this.selectedScanType;
@@ -71,6 +71,10 @@ export class ScansComponent implements OnInit {
         this.r
       ).finally(() => {
         this.getScans();
+
+        if(shouldRun){
+          this.runScan(this.scanName!);
+        }
         
         this.submitted = false;
         this.selectedScanType = this.selectedScheduleType = this.port = this.ipDomain = this.scanName = null;

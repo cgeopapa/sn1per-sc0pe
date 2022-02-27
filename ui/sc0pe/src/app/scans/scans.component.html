@@ -16,7 +16,7 @@
                     <button pButton pRipple icon="pi pi-eye" pTooltip="View scan logs" tooltipPosition="top"
                         class="p-button-rounded p-button-secondary mr-2" (click)="viewScan(scan)"></button>
                     <button pButton pRipple icon="pi pi-trash" pTooltip="Delete this scan and its results" tooltipPosition="top"
-                        class="p-button-rounded p-button-danger mr-2" (click)="deleteScan(scan)"></button>
+                        class="p-button-rounded p-button-danger mr-2" (click)="deleteScan(scan)" [disabled]="scanStatus[scan]"></button>
                 </td>
             </tr>
         </ng-template>
@@ -83,6 +83,6 @@
     </div>
     <div class="flex">
         <button pButton pRipple type="button" label="Create" (click)="createScan()"></button>
-        <button pButton pRipple type="button" label="Create and Run" class="p-button-secondary ml-2"></button>
+        <button pButton pRipple type="button" label="Create and Run" class="p-button-secondary ml-2" (click)="createScan(true)"></button>
     </div>
 </div>
