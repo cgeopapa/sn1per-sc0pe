@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "========== This is a development deployment method =========="
+
+cd ui/
+node index.js > /dev/null &
+cd sc0pe/
+npm start

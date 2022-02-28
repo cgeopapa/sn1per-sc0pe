@@ -73,6 +73,7 @@ if [[ $UBUNTU_CHECK == "DISTRIB_ID=Ubuntu" ]]; then
 fi
 
 echo -e "$OKBLUE[*]$RESET Installing package dependencies...$RESET"
+curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
 apt-get update
 apt-get install -y python3-paramiko
 apt-get install -y nfs-common
@@ -459,6 +460,12 @@ cp -f $PLUGINS_DIR/Findsploit/findsploit.desktop /usr/share/kali-menu/applicatio
 mkdir -p /usr/share/sniper/loot/workspaces/ 2> /dev/null
 ln -fs /usr/share/sniper/loot/workspaces/ /home/kali/Desktop/workspaces 2> /dev/null
 ln -fs /usr/share/sniper/loot/workspaces/ /root/Desktop/workspaces 2> /dev/null
+
+npm install -g @angular/cli
+cd ui/
+npm install
+cd sc0pe/
+npm install
 
 echo -e "$OKRED[>]$RESET Done! $RESET"
 echo -e "$OKRED[>]$RESET To run, type 'sniper'! $RESET"
