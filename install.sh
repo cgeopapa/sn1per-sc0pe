@@ -430,6 +430,7 @@ rm -f /usr/bin/sniper
 rm -f /usr/bin/goohak
 rm -f /usr/bin/dirsearch
 ln -s $INSTALL_DIR/sniper /usr/bin/sniper 2> /dev/null
+ln -s $INSTALL_DIR/sniperSc0pe /usr/bin/sniperSc0pe 2> /dev/null
 ln -s $PLUGINS_DIR/Goohak/goohak /usr/bin/goohak 2> /dev/null
 ln -s $PLUGINS_DIR/dirsearch/dirsearch.py /usr/bin/dirsearch 2> /dev/null
 ln -s /usr/share/sniper /sniper 2> /dev/null
@@ -447,6 +448,9 @@ echo -e "$OKBLUE[*]$RESET Adding start menu and desktop shortcuts... $RESET"
 cp -f $INSTALL_DIR/sn1per.desktop /usr/share/applications/ 2> /dev/null
 cp -f $INSTALL_DIR/sn1per.desktop /usr/share/applications/sn1per.desktop 2> /dev/null
 cp -f $INSTALL_DIR/sn1per.desktop /usr/share/kali-menu/applications/sn1per.desktop 2> /dev/null
+cp -f $INSTALL_DIR/sn1perSc0pe.desktop /usr/share/applications/ 2> /dev/null
+cp -f $INSTALL_DIR/sn1perSc0pe.desktop /usr/share/applications/sn1per.desktop 2> /dev/null
+cp -f $INSTALL_DIR/sn1perSc0pe.desktop /usr/share/kali-menu/applications/sn1per.desktop 2> /dev/null
 cp -f $INSTALL_DIR/sn1per.png /usr/share/pixmaps/ 2> /dev/null
 cp -f $PLUGINS_DIR/BruteX/brutex.desktop /usr/share/applications/ 2> /dev/null
 cp -f $PLUGINS_DIR/BruteX/brutex.desktop /usr/share/applications/brutex.desktop 2> /dev/null
