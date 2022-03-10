@@ -23,7 +23,7 @@ for dir in dirs:
                         json_obj[dir][name[0]] = contents[0]
                     else:
                         json_obj[dir][name[0]] = contents
-                f.close()
+                    f.close()
 
 f = open(os.path.join(loot, "output.json"), "w")
 f.write(json.dumps(json_obj, indent=4))

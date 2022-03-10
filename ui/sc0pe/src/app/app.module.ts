@@ -13,19 +13,23 @@ import {TableModule} from 'primeng/table';
 import {TooltipModule} from 'primeng/tooltip';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {CheckboxModule} from 'primeng/checkbox';
+import {TabViewModule} from 'primeng/tabview';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ScansComponent } from './scans/scans.component';
 import { HomeComponent } from './home/home.component';
 import { TerminalComponent } from './terminal/terminal.component';
+import { ConfigsComponent } from './configs/configs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ScansComponent,
     HomeComponent,
-    TerminalComponent
+    TerminalComponent,
+    ConfigsComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +46,8 @@ import { TerminalComponent } from './terminal/terminal.component';
     TooltipModule,
     InputNumberModule,
     CheckboxModule,
+    TabViewModule,
+    InputSwitchModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

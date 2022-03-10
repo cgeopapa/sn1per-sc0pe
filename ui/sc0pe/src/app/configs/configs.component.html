@@ -1,0 +1,26 @@
+<div class="flex" style="height: 45rem;">
+    <div class="flex flex-column w-3 border-right-1">
+        <button *ngFor="let c of configs" pRipple pButton [label]="c" class="p-button-text w-full"
+            (click)="getConfig(c)"></button>
+    </div>
+    <div class="overflow-auto w-full">
+        <p-table [value]="configKeys" styleClass="p-datatable-striped p-datatable-sm"
+            [scrollable]="true" scrollHeight="100%">
+            <ng-template pTemplate="body" let-c>
+                <tr>
+                    <td>{{c}} <span *ngIf="initialConfig[c] !=== transformedConfig[c]">*</span></td>
+                    <td>
+                        <p-inputSwitch *ngIf="(transformedConfig[c] === true || transformedConfig[c] === false) else noSwitch"
+                            [(ngModel)]="transformedConfig[c]" (onChange)="change()"></p-inputSwitch>
+                        <ng-template #noSwitch>
+                            <input type="text" class="w-30rem" pInputText [(ngModel)]="transformedConfig[c]" (change)="change()"/>
+                        </ng-template>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<button pRipple pButton label="Save Changes" icon="pi pi-save" 
+    [ngClass]="{'fadeindown': changes, 'hidden': !changes}"
+    class="absolute bottom-0 right-0 m-6"></button>
