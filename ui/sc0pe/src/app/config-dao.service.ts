@@ -35,4 +35,13 @@ export class ConfigDaoService {
     })
     return lastValueFrom(configs)
   }
+
+  public deleteConfig(config: string) {
+    const configs = this.http.delete(environment.url+"config", {
+      params: new HttpParams().set("config", config),
+      observe: "body",
+      responseType: "text"
+    })
+    return lastValueFrom(configs)
+  }
 }

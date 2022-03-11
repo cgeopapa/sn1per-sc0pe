@@ -16,6 +16,8 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {TabViewModule} from 'primeng/tabview';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {DialogModule} from 'primeng/dialog';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,8 +52,11 @@ import { ConfigsComponent } from './configs/configs.component';
     TabViewModule,
     InputSwitchModule,
     DialogModule,
+    ConfirmDialogModule
   ],
-  providers: [],
+  providers: [
+    ConfirmationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

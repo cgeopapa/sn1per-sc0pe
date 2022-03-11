@@ -174,6 +174,20 @@ function createConfig(req, res) {
   res.sendStatus(200);
 }
 
+//
+// ─── DELETE CONFIG ──────────────────────────────────────────────────────────────
+//
+function deleteConfig(res, req) {
+  const config = req.query.config;
+  if (config !== "default") {
+    fs.unlinkSync(configDir+config);
+    res.sendStatus(200);
+  }
+  else {
+    res.sendStatus(301);
+  }
+}
+
 app.get('/exec', executeShell);
 app.get("/scan", createScan);
 app.delete("/scan", deleteScan);
@@ -181,6 +195,7 @@ app.get("/scans", getScans);
 app.get("/configs", getConfs);
 app.get("/config", getConfig);
 app.post("/config", createConfig);
+app.delete("/config", deleteConfig);
 
 const PORT = 3001;
 

@@ -2,7 +2,8 @@
     <div class="flex flex-column w-3 p-1 border-right-1 overflow-auto">
         <button pRipple pButton label="New" icon="pi pi-plus" (click)="visible=true"></button>
         <div class="flex" *ngFor="let c of configs" id="hover-slide-in">
-            <button pRipple pButton icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" id="delete"></button>            
+            <button pRipple pButton icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" id="delete"
+                (click)="deleteConfirm(c)"></button>            
             <button pRipple pButton [label]="c" class="p-button-text w-full"
                 (click)="getConfig(c)"></button>
         </div>
@@ -42,3 +43,10 @@
             (click)="visible=false;newConfigName=null"></button>
     </ng-template>
 </p-dialog>
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+    <ng-template pTemplate="footer">
+        <button type="button" pButton class="p-button-text p-button-sm" icon="pi pi-times" label="No" (click)="cd.reject()"></button>
+        <button type="button" pButton class="p-button-sm" icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
+    </ng-template>
+</p-confirmDialog>

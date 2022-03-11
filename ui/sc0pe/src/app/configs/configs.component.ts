@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
 import { ConfigDaoService } from '../config-dao.service';
 
 @Component({
@@ -20,7 +21,8 @@ export class ConfigsComponent implements OnInit {
   newConfigNameValid = true;
 
   constructor(
-    private dao: ConfigDaoService
+    private dao: ConfigDaoService,
+    private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit(): void {
@@ -57,6 +59,17 @@ export class ConfigsComponent implements OnInit {
     else {
       this.newConfigNameValid = false;
     }
+  }
+
+  deleteConfirm(config: string) {
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete the configuration file <b>${config}</b>? You can not undo this action.`,
+      accept: () => {
+        this.dao.deleteConfig(config).then(() => {
+          this.getConfigs();
+        })
+      }
+    })
   }
 
   newConfigNameRemoveSpaces() {
