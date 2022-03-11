@@ -26,4 +26,13 @@ export class ConfigDaoService {
     })
     return lastValueFrom(configs)
   }
+
+  public createConfig(config: string) {
+    const configs = this.http.post(environment.url+"config", null, {
+      params: new HttpParams().set("config", config),
+      observe: "body",
+      responseType: "text"
+    })
+    return lastValueFrom(configs)
+  }
 }

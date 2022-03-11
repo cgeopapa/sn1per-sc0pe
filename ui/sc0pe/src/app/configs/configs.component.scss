@@ -1,0 +1,12 @@
+#delete {
+    transform: translateX(-40%);
+    opacity: 0;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+#hover-slide-in:hover {
+    #delete {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

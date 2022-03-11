@@ -15,6 +15,9 @@ export class ConfigsComponent implements OnInit {
   configKeys: string[] = [];
 
   changes: boolean = false;
+  visible = false;
+  newConfigName: string | null = null;
+  newConfigNameValid = true;
 
   constructor(
     private dao: ConfigDaoService
@@ -41,6 +44,23 @@ export class ConfigsComponent implements OnInit {
       this.initialConfig = {...this.transformedConfig}
       this.configKeys = Object.keys(this.transformedConfig);
     })
+  }
+
+  createNewConfig() {
+    if(this.newConfigName && !(this.configs.includes(this.newConfigName))){
+      this.newConfigNameValid = true;
+      this.dao.createConfig(this.newConfigName).then(() => {
+        this.getConfigs();
+        this.visible = false;
+      })
+    }
+    else {
+      this.newConfigNameValid = false;
+    }
+  }
+
+  newConfigNameRemoveSpaces() {
+    this.newConfigName = this.newConfigName!.replace(" ", "_");
   }
 
   private transformConfig(c: any) {

@@ -1,14 +1,18 @@
 <div class="flex" style="height: 45rem;">
-    <div class="flex flex-column w-3 border-right-1">
-        <button *ngFor="let c of configs" pRipple pButton [label]="c" class="p-button-text w-full"
-            (click)="getConfig(c)"></button>
+    <div class="flex flex-column w-3 p-1 border-right-1 overflow-auto">
+        <button pRipple pButton label="New" icon="pi pi-plus" (click)="visible=true"></button>
+        <div class="flex" *ngFor="let c of configs" id="hover-slide-in">
+            <button pRipple pButton icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" id="delete"></button>            
+            <button pRipple pButton [label]="c" class="p-button-text w-full"
+                (click)="getConfig(c)"></button>
+        </div>
     </div>
     <div class="overflow-auto w-full">
         <p-table [value]="configKeys" styleClass="p-datatable-striped p-datatable-sm"
             [scrollable]="true" scrollHeight="100%">
             <ng-template pTemplate="body" let-c>
                 <tr>
-                    <td>{{c}} <span *ngIf="initialConfig[c] !=== transformedConfig[c]">*</span></td>
+                    <td [ngClass]="{'font-bold': initialConfig[c] !== transformedConfig[c]}">{{c}}</td>
                     <td>
                         <p-inputSwitch *ngIf="(transformedConfig[c] === true || transformedConfig[c] === false) else noSwitch"
                             [(ngModel)]="transformedConfig[c]" (onChange)="change()"></p-inputSwitch>
@@ -24,3 +28,17 @@
 <button pRipple pButton label="Save Changes" icon="pi pi-save" 
     [ngClass]="{'fadeindown': changes, 'hidden': !changes}"
     class="absolute bottom-0 right-0 m-6"></button>
+
+<p-dialog header="New sn1per configiguration" [(visible)]="visible">
+    <span class="p-float-label m-4">
+        <input type="text" id="inputtext" pInputText [(ngModel)]="newConfigName" (input)="newConfigNameRemoveSpaces()">
+        <label for="inputtext">Config name</label>
+    </span>
+    <small class="p-error" *ngIf="!newConfigNameValid">Config name is required and MUST be unique.</small>
+    <ng-template pTemplate="footer">
+        <button pRipple pButton label="Create" icon="pi pi-check" class="p-button-outlined"
+            (click)="createNewConfig()"></button>
+        <button pRipple pButton label="Cancel" icon="pi pi-times" class="p-button-outlined p-button-secondary"
+            (click)="visible=false;newConfigName=null"></button>
+    </ng-template>
+</p-dialog>

@@ -144,7 +144,9 @@ function createScan(req, res) {
 //
 function getConfs(req, res) {
   res.setHeader('Content-Type', 'application/json');
-  let configs = fs.readdirSync(configDir);
+  let configs = fs.readdirSync(configDir, {withFileTypes: true});
+  configs = configs.filter(c => c.isFile);
+  configs = configs.map(c => c.name);
   res.json(configs);
 }
 function getConfig(req, res) {
@@ -167,7 +169,9 @@ function getConfig(req, res) {
 // ─── CREATE CONFIG ──────────────────────────────────────────────────────────────
 //
 function createConfig(req, res) {
-
+  const config = req.query.config;
+  fs.copyFileSync(configDir+'default', configDir+config);
+  res.sendStatus(200);
 }
 
 app.get('/exec', executeShell);
@@ -176,6 +180,7 @@ app.delete("/scan", deleteScan);
 app.get("/scans", getScans);
 app.get("/configs", getConfs);
 app.get("/config", getConfig);
+app.post("/config", createConfig);
 
 const PORT = 3001;
 

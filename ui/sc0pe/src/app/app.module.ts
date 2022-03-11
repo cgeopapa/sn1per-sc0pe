@@ -15,6 +15,7 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {CheckboxModule} from 'primeng/checkbox';
 import {TabViewModule} from 'primeng/tabview';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import {DialogModule} from 'primeng/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,6 +49,7 @@ import { ConfigsComponent } from './configs/configs.component';
     CheckboxModule,
     TabViewModule,
     InputSwitchModule,
+    DialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
