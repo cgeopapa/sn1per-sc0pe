@@ -177,7 +177,7 @@ function createConfig(req, res) {
 //
 // ─── DELETE CONFIG ──────────────────────────────────────────────────────────────
 //
-function deleteConfig(res, req) {
+function deleteConfig(req, res) {
   const config = req.query.config;
   if (config !== "default") {
     fs.unlinkSync(configDir+config);
