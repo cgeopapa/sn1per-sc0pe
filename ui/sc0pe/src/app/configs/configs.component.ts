@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { ConfigDaoService } from '../config-dao.service';
 
@@ -8,7 +8,7 @@ import { ConfigDaoService } from '../config-dao.service';
   styleUrls: ['./configs.component.scss']
 })
 export class ConfigsComponent implements OnInit {
-  configs: any[] = [];
+  @Input() configs: any[] = [];
 
   transformedConfig: any = {};
   initialConfig: any = {};
@@ -26,7 +26,7 @@ export class ConfigsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getConfigs();
+    // this.getConfigs();
   }
 
   public change() {

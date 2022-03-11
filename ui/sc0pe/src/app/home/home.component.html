@@ -4,9 +4,9 @@
 </div>
 <p-tabView>
     <p-tabPanel header="Scans">
-        <app-scans></app-scans>
+        <app-scans [configs]="configs"></app-scans>
     </p-tabPanel>
     <p-tabPanel header="Configs">
-        <app-configs></app-configs>
+        <app-configs [configs]="configs"></app-configs>
     </p-tabPanel>
 </p-tabView>

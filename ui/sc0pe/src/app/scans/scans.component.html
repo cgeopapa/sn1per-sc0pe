@@ -57,6 +57,14 @@
         </div>
         <div class="field col">
             <span class="p-float-label">
+                <p-dropdown [options]="configs" [(ngModel)]="selectedConfig" [autoDisplayFirst]="false"
+                    inputId="config" [showClear]="true"
+                    ></p-dropdown>
+                <label for="config">Configuration</label>
+            </span>
+        </div>
+        <div class="field col">
+            <span class="p-float-label">
                 <input type="text" pInputText [(ngModel)]="scanName"/>
                 <label for="scanType">Scan Name</label>
             </span>

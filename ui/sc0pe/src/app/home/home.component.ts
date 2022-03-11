@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfigDaoService } from '../config-dao.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  configs: any[] = [];
 
-  constructor() { }
+  constructor(
+    private configDao: ConfigDaoService
+  ) { }
 
   ngOnInit(): void {
+    this.getConfigs();
   }
 
+  getConfigs() {
+    this.configDao.getConfigs().then((s: any) => {
+      this.configs = s;
+    })
+  }
 }

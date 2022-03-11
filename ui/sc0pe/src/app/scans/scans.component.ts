@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ScanDaoService } from '../scan-dao.service';
 
@@ -8,9 +8,12 @@ import { ScanDaoService } from '../scan-dao.service';
   styleUrls: ['./scans.component.scss']
 })
 export class ScansComponent implements OnInit {
+  @Input() configs: any = {};
+  
   scans: any[] = [];
   scanStatus: any = {};
 
+  public selectedConfig: string | null = null;
   public selectedScanType: string | null = null;
   public ipDomain: string | null = null;
   public port: number | null = null;
@@ -36,6 +39,7 @@ export class ScansComponent implements OnInit {
 
   ngOnInit(): void {
     this.getScans();
+    console.table(this.configs);
 
     this.dao.getScanStatus().subscribe((msg: any) => {
       this.scanStatus = JSON.parse(msg);
@@ -63,8 +67,9 @@ export class ScansComponent implements OnInit {
         this.ipDomain!, 
         this.selectedScanType!, 
         this.scanName!,
-        this.port!,
-        this.selectedScheduleType!,
+        this.port,
+        this.selectedScheduleType,
+        this.selectedConfig,
         this.fp,
         this.b,
         this.o,

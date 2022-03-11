@@ -124,12 +124,14 @@ function createScan(req, res) {
   const ip = req.query.ip;
   const type = req.query.type;
   
-  const fp = req.query.fp == "true" ? " -fp" : "";
-  const b = req.query.b == "true" ? " -b" : "";
-  const o = req.query.o == "true" ? " -o" : "";
-  const r = req.query.r == "true" ? " -re" : "";
+  const sch = req.query.sch ? ` -s ${req.query.sch}` : "";
+  const config = req.query.config ? ` -c ${configDir}${req.query.config}` : "";
+  const fp = req.query.fp ? " -fp" : "";
+  const b = req.query.b ? " -b" : "";
+  const o = req.query.o ? " -o" : "";
+  const r = req.query.r ? " -re" : "";
 
-  fs.writeFileSync(`${path}/scan.sh`, `sudo sniper -t ${ip} -m ${type} ${fp}${b}${o}${r} -w ${scan}`)
+  fs.writeFileSync(`${path}/scan.sh`, `sudo sniper${sch} -t ${ip} -m ${type}${fp}${b}${o}${r} -w ${scan}${config}`)
   scanStatus[scan] = false;
   fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
     if(err) console.log(err);
