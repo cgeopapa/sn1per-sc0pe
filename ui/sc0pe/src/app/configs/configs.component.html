@@ -3,7 +3,7 @@
         <button pRipple pButton label="New" icon="pi pi-plus" (click)="visible=true"></button>
         <div class="flex" *ngFor="let c of configs" id="hover-slide-in">
             <button pRipple pButton icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" id="delete"
-                (click)="deleteConfirm(c)"></button>            
+                (click)="deleteConfirm(c)" *ngIf="c !== 'default'"></button>            
             <button pRipple pButton [label]="c" class="p-button-text w-full"
                 (click)="getConfig(c)"></button>
         </div>
@@ -11,6 +11,14 @@
     <div class="overflow-auto w-full">
         <p-table [value]="configKeys" styleClass="p-datatable-striped p-datatable-sm"
             [scrollable]="true" scrollHeight="100%">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between">
+                    <h2>Selected config: {{selectedConfig}}</h2>
+                    <button pRipple pButton label="Save Changes" icon="pi pi-save" (click)="updateConfig()"
+                        [ngClass]="{'fadeinright': changes, 'hidden': !changes}"
+                        class="mr-4"></button>
+                </div>
+            </ng-template>
             <ng-template pTemplate="body" let-c>
                 <tr>
                     <td [ngClass]="{'font-bold': initialConfig[c] !== transformedConfig[c]}">{{c}}</td>
@@ -26,9 +34,6 @@
         </p-table>
     </div>
 </div>
-<button pRipple pButton label="Save Changes" icon="pi pi-save" 
-    [ngClass]="{'fadeindown': changes, 'hidden': !changes}"
-    class="absolute bottom-0 right-0 m-6"></button>
 
 <p-dialog header="New sn1per configiguration" [(visible)]="visible">
     <span class="p-float-label m-4">

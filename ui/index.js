@@ -188,6 +188,28 @@ function deleteConfig(req, res) {
   }
 }
 
+//
+// ─── UPDATE CONFIG ──────────────────────────────────────────────────────────────
+//
+function updateConfig(req, res) {
+  const configName = req.query.config;
+  const config = req.body;
+  const f = fs.createWriteStream(configDir+configName)
+  let configWrite = "";
+  for(let c in config) {
+    let value;
+    if(config[c] === true || config[c] === false) {
+      value = config[c] ? "1" : "0";
+    }
+    else {
+      value = config[c];
+    }
+    f.write(`${c}="${value}"\n`);
+  }
+
+  res.sendStatus(200);
+}
+
 app.get('/exec', executeShell);
 app.get("/scan", createScan);
 app.delete("/scan", deleteScan);
@@ -196,6 +218,7 @@ app.get("/configs", getConfs);
 app.get("/config", getConfig);
 app.post("/config", createConfig);
 app.delete("/config", deleteConfig);
+app.put("/config", updateConfig)
 
 const PORT = 3001;
 

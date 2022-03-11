@@ -12,7 +12,7 @@ export class ConfigsComponent implements OnInit {
 
   transformedConfig: any = {};
   initialConfig: any = {};
-  selectedConfig: any = {};
+  selectedConfig = "None";
   configKeys: string[] = [];
 
   changes: boolean = false;
@@ -40,12 +40,17 @@ export class ConfigsComponent implements OnInit {
   }
 
   getConfig(config: string) {
-    this.dao.getConfig(config).then((s: any) => {
-      this.selectedConfig = config;
-      this.transformedConfig = this.transformConfig(s);
-      this.initialConfig = {...this.transformedConfig}
-      this.configKeys = Object.keys(this.transformedConfig);
-    })
+    if(this.changes) {
+      this.confirmationService.confirm({
+        message: "You have unsaved changes in this configuration file. Are you sure you want to switch to an other one? You will lose all unsaved changes.",
+        accept: () => {
+          this.changeConfig(config);
+        }
+      })
+    }
+    else {
+      this.changeConfig(config);
+    }
   }
 
   createNewConfig() {
@@ -72,6 +77,13 @@ export class ConfigsComponent implements OnInit {
     })
   }
 
+  updateConfig() {
+    this.dao.updateConfig(this.selectedConfig, this.transformedConfig).then(() => {
+      this.getConfig(this.selectedConfig);
+      this.changes = false;
+    })
+  }
+
   newConfigNameRemoveSpaces() {
     this.newConfigName = this.newConfigName!.replace(" ", "_");
   }
@@ -88,5 +100,15 @@ export class ConfigsComponent implements OnInit {
     }
     console.log(ret);
     return ret;
+  }
+
+  private changeConfig(config: string){
+    this.dao.getConfig(config).then((s: any) => {
+      this.selectedConfig = config;
+      this.transformedConfig = this.transformConfig(s);
+      this.initialConfig = {...this.transformedConfig}
+      this.configKeys = Object.keys(this.transformedConfig);
+      this.changes = false;
+    })
   }
 }

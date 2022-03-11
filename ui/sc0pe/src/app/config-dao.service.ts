@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -41,6 +41,16 @@ export class ConfigDaoService {
       params: new HttpParams().set("config", config),
       observe: "body",
       responseType: "text"
+    })
+    return lastValueFrom(configs)
+  }
+
+  public updateConfig(configName: string, config: any) {
+    const configs = this.http.put(environment.url+"config", config, {
+      params: new HttpParams().set("config", configName),
+      observe: "body",
+      responseType: "text",
+      headers: new HttpHeaders().set("Content-Type", "application/json"),
     })
     return lastValueFrom(configs)
   }
