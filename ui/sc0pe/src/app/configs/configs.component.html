@@ -1,16 +1,18 @@
 <div class="flex" style="height: 45rem;">
-    <div class="flex flex-column w-3 p-1 border-right-1 overflow-auto">
+    <div class="flex flex-column w-3 p-1 border-right-1">
         <button pRipple pButton label="New" icon="pi pi-plus" (click)="visible=true"></button>
-        <div class="flex" *ngFor="let c of configs" id="hover-slide-in">
-            <button pRipple pButton icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" id="delete"
-                (click)="deleteConfirm(c)" *ngIf="c !== 'default'"></button>            
-            <button pRipple pButton [label]="c" class="p-button-text w-full"
-                (click)="getConfig(c)"></button>
+        <div class="overflow-auto">
+            <div class="flex" *ngFor="let c of configs" id="hover-slide-in">
+                <button pRipple pButton icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" id="delete"
+                    (click)="deleteConfirm(c)" *ngIf="c !== 'default'"></button>            
+                <button pRipple pButton [label]="c" class="p-button-text w-full"
+                    (click)="getConfig(c)"></button>
+            </div>
         </div>
     </div>
-    <div class="overflow-auto w-full">
+    <div class="w-full"> 
         <p-table [value]="configKeys" styleClass="p-datatable-striped p-datatable-sm"
-            [scrollable]="true" scrollHeight="100%">
+            [scrollable]="true" scrollHeight="42rem">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between">
                     <h2>Selected config: {{selectedConfig}}</h2>
