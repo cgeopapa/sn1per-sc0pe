@@ -7,6 +7,6 @@
         <app-scans [configs]="configs"></app-scans>
     </p-tabPanel>
     <p-tabPanel header="Configs">
-        <app-configs [configs]="configs"></app-configs>
+        <app-configs (configsEvent)="getConfigs($event)"></app-configs>
     </p-tabPanel>
 </p-tabView>
