@@ -3,10 +3,10 @@
     <img src="../../assets/Barrett_.50cal_CoD4.webp" alt="sniper_scope">
 </div>
 <p-tabView>
-    <p-tabPanel header="Scans">
+    <p-tabPanel header="Scans" leftIcon="pi pi-search">
         <app-scans [configs]="configs"></app-scans>
     </p-tabPanel>
-    <p-tabPanel header="Configs">
+    <p-tabPanel header="Config editor" leftIcon="pi pi-pencil">
         <app-configs (configsEvent)="getConfigs($event)"></app-configs>
     </p-tabPanel>
 </p-tabView>
