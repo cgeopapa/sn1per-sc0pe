@@ -8,6 +8,7 @@ import { ConfigDaoService } from '../config-dao.service';
   styleUrls: ['./configs.component.scss']
 })
 export class ConfigsComponent implements OnInit {
+  loading = false;
   configs: any[] = [];
   @Output() configsEvent = new EventEmitter<any[]>();
 
@@ -105,12 +106,14 @@ export class ConfigsComponent implements OnInit {
   }
 
   private changeConfig(config: string){
+    this.loading = true;
     this.dao.getConfig(config).then((s: any) => {
       this.selectedConfig = config;
       this.transformedConfig = this.transformConfig(s);
       this.initialConfig = {...this.transformedConfig}
       this.configKeys = Object.keys(this.transformedConfig);
       this.changes = false;
+      this.loading = false;
     })
   }
 }

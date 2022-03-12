@@ -12,7 +12,7 @@
     </div>
     <div class="w-full"> 
         <p-table [value]="configKeys" styleClass="p-datatable-striped p-datatable-sm"
-            [scrollable]="true" scrollHeight="42rem">
+            [scrollable]="true" scrollHeight="42rem" [loading]="loading">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between">
                     <h2>Selected config: {{selectedConfig}}</h2>
