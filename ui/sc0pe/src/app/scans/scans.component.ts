@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
 import { environment } from 'src/environments/environment';
 import { ScanDaoService } from '../scan-dao.service';
 
@@ -34,7 +35,8 @@ export class ScansComponent implements OnInit {
   public readonly scheduleTypes: any[] = environment.schedule;
 
   constructor(
-    private dao: ScanDaoService
+    private dao: ScanDaoService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +49,12 @@ export class ScansComponent implements OnInit {
   }
 
   deleteScan(scan: string) {
-    this.dao.deleteScan(scan).finally(() => this.getScans());
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete <b>${scan}</b>? You will lose all results this scan has ever yeilded and this can not be undone.`,
+      accept: () => {
+        this.dao.deleteScan(scan).finally(() => this.getScans());
+      }
+    })
   }
   
   getScans() {
