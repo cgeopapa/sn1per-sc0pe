@@ -1,0 +1,8 @@
+domain: domains/domains-all-sorted.txt
+dns: ips/ips-all-sorted.txt
+ports: nmap/ports-${domain}.com.txt
+title: web/title-http-${domain}-80.txt
+server: web/headers-http(s)-${domain}-${port}.txt => json Server
+status: web/headers-http(s)-${domain}-${port}.txt => line 1
+fingerprint: web/title-http(s)-${domain}-${port}.txt
+risk: nmap/osfingerprint-${domain}.txt

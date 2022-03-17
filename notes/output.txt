@@ -1,0 +1,22 @@
+csv (hosts details)
+host {
+  screenshots,
+  (quick commands),
+  whois,
+  dns,
+  subdomains,
+  open ports,
+  ssl/tls,
+  fingerprint,
+  waf,
+  headers,
+  web files,
+  web url,
+  static analysis,
+  credentials,
+  vulnerabilities,
+}
+
+credentials,
+vulnerabilities,
+file explorer

@@ -44,10 +44,10 @@
     </span>
     <small class="p-error" *ngIf="!newConfigNameValid">Config name is required and MUST be unique.</small>
     <ng-template pTemplate="footer">
-        <button pRipple pButton label="Create" icon="pi pi-check" class="p-button-outlined"
-            (click)="createNewConfig()"></button>
         <button pRipple pButton label="Cancel" icon="pi pi-times" class="p-button-outlined p-button-secondary"
             (click)="visible=false;newConfigName=null"></button>
+        <button pRipple pButton label="Create" icon="pi pi-check" class="p-button-outlined"
+            (click)="createNewConfig()"></button>
     </ng-template>
 </p-dialog>
 

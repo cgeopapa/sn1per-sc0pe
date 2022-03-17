@@ -95,9 +95,9 @@
     </div>
 </div>
 
-<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+<p-confirmDialog #cda header="Confirmation" icon="pi pi-exclamation-triangle">
     <ng-template pTemplate="footer">
-        <button type="button" pButton class="p-button-text p-button-sm" icon="pi pi-times" label="No" (click)="cd.reject()"></button>
-        <button type="button" pButton class="p-button-sm" icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
+        <button type="button" pButton class="p-button-text p-button-sm" icon="pi pi-times" label="No" (click)="cda.reject()"></button>
+        <button type="button" pButton class="p-button-sm" icon="pi pi-check" label="Yes" (click)="cda.accept()"></button>
     </ng-template>
 </p-confirmDialog>
