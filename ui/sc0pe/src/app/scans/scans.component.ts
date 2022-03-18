@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { environment } from 'src/environments/environment';
 import { ScanDaoService } from '../scan-dao.service';
@@ -36,7 +37,8 @@ export class ScansComponent implements OnInit {
 
   constructor(
     private dao: ScanDaoService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -102,6 +104,10 @@ export class ScansComponent implements OnInit {
 
   public viewScan(scan:string) {
     window.open("/terminal?scan="+scan, "_blank")
+  }
+
+  public scanDetails(scan: string) {
+    this.router.navigate(["scan"], {queryParams: {n: scan}})
   }
 
 }

@@ -20,7 +20,6 @@ let scanObjects = {};
 let scanStatus = {};
 const scansFile = fs.readFileSync(scanStatusPath)
 scanStatus = JSON.parse(scansFile);
-
 // #endregion
 
 let wsCons = [];
@@ -212,6 +211,28 @@ function updateConfig(req, res) {
   res.sendStatus(200);
 }
 
+//
+// ─── GET TASKS HISTORY ──────────────────────────────────────────────────────────
+//
+function tasksHistory(req, res) {
+  const scan = req.query.scan;
+  const path = `${scansFolder}${scan}/scans/tasks.txt`;
+  try{
+    const history = fs.readFileSync(path).toString().trim();
+    r = history.split("\n");
+    r = r.map(l => l.split(" "));
+    res.json(r);
+  } catch(e) {
+    console.log(e)
+    if(e.code === 'ENOENT') {
+      res.sendStatus(200);
+    }
+    else {
+      res.sendStatus(400);
+    }
+  }
+}
+
 app.get('/exec', executeShell);
 app.get("/scan", createScan);
 app.delete("/scan", deleteScan);
@@ -220,7 +241,8 @@ app.get("/configs", getConfs);
 app.get("/config", getConfig);
 app.post("/config", createConfig);
 app.delete("/config", deleteConfig);
-app.put("/config", updateConfig)
+app.put("/config", updateConfig);
+app.get("/history", tasksHistory);
 
 const PORT = 3001;
 

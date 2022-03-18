@@ -34,7 +34,6 @@ for ip in domains:
         json_obj[ip][dir] = {}
 
 for dir in dirs:
-    # if dir not in ["output", "screenshots", "scans", "notes", "output.json", "reports", "scan.out", "scan.sh", "domains"]:
     json_obj[dir] = {}
     for (dirpath, d, files) in os.walk(os.path.join(loot, dir)):
         for file in files:
@@ -64,35 +63,6 @@ for dir in dirs:
                             json_obj[dir][name[0]] = contents
                     f.close()
         break
-
-# ─── DOMAINS ────────────────────────────────────────────────────────────────────
-
-# json_obj["domains"] = {}
-
-# f = open(path.join(loot, "domains", "targets-all-sorted.txt"))
-# r = f.read().strip().split("\n")
-# json_obj["domains"]["targets-scanned"] = r
-# f.close()
-
-# f = open(path.join(loot, "domains", "targets-all-unscanned.txt"))
-# r = f.read().strip().split("\n")
-# json_obj["domains"]["targets-unscanned"] = r
-# f.close()
-
-# f = open(path.join(loot, "domains", "domains-all-sorted.txt"))
-# r = f.read().strip().split("\n")
-# json_obj["domains"]["domains"] = r
-# domains = r
-# f.close()
-
-# ─── NMAP ───────────────────────────────────────────────────────────────────────
-
-# json_obj["nmap"] = {}
-
-# f = open(path.join(loot, "nmap", "livehosts-sorted.txt"))
-# domains = f.read().strip().split("\n")
-# json_obj["domains"]["domains"] = domains
-# f.close()
 
 # ─── OUTPUT ─────────────────────────────────────────────────────────────────────
 

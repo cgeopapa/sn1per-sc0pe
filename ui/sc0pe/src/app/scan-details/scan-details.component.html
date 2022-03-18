@@ -1,0 +1,31 @@
+<div class="flex justify-content-between bg-primary align-items-center">
+    <h1 class="p-2 pl-4 text-5xl">Sc0pe for Sn1per</h1>
+    <img src="../../assets/Barrett_.50cal_CoD4.webp" alt="sniper_scope">
+</div>
+<div class="p-2">
+    <h2>Selected scan: {{scan}}</h2>
+    <p-accordion class="m-2">
+        <p-accordionTab header="Scan History">
+            <p-table [value]="history" styleClass="p-datatable-sm p-datatable-striped" [scrollable]="true" 
+                scrollHeight="250px" [resizableColumns]="true" sortMode="multiple">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pResizableColumn>IP/Domain</th>
+                        <th pResizableColumn>Mode</th>
+                        <th pSortableColumn="2" pResizableColumn>Date<p-sortIcon field="2"></p-sortIcon></th>
+                        <th pSortableColumn="3" pResizableColumn>Time<p-sortIcon field="3"></p-sortIcon></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-h>
+                    <tr>
+                        <td>{{h[0]}}</td>
+                        <td>{{h[1]}}</td>
+                        <td>{{h[2]}}</td>
+                        <td>{{h[3]}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-accordionTab>
+    </p-accordion>
+
+</div>

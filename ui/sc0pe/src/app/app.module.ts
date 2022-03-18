@@ -18,6 +18,7 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {DialogModule} from 'primeng/dialog';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
+import {AccordionModule} from 'primeng/accordion';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { ScansComponent } from './scans/scans.component';
 import { HomeComponent } from './home/home.component';
 import { TerminalComponent } from './terminal/terminal.component';
 import { ConfigsComponent } from './configs/configs.component';
+import { ScanDetailsComponent } from './scan-details/scan-details.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { ConfigsComponent } from './configs/configs.component';
     ScansComponent,
     HomeComponent,
     TerminalComponent,
-    ConfigsComponent
+    ConfigsComponent,
+    ScanDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +55,8 @@ import { ConfigsComponent } from './configs/configs.component';
     TabViewModule,
     InputSwitchModule,
     DialogModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    AccordionModule,
   ],
   providers: [
     ConfirmationService

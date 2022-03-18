@@ -1,6 +1,6 @@
 <div class="p-2">
     <h2 class="text-primary m-2">Scans</h2>
-    <p-table [value]="scans" styleClass="p-datatable-striped" [resizableColumns]="true">
+    <p-table [value]="scans" styleClass="p-datatable-striped" [resizableColumns]="true" selectionMode="single">
         <ng-template pTemplate="header">
             <tr>
                 <th pResizableColumn>Name</th>
@@ -9,7 +9,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-scan>
             <tr>
-                <td> <i class="pi pi-spin pi-spinner" *ngIf="scanStatus[scan]"></i> {{scan}}</td>
+                <td> <i class="pi pi-spin pi-spinner" *ngIf="scanStatus[scan]"></i><button pButton class="p-button-link" [label]="scan" (click)="scanDetails(scan)"></button></td>
                 <td>
                     <button pButton pRipple icon="pi pi-play" pTooltip="Run scan" tooltipPosition="top"
                         class="p-button-rounded mr-2" (click)="runScan(scan)" [disabled]="scanStatus[scan]"></button>

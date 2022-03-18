@@ -79,4 +79,11 @@ export class ScanDaoService {
     stdout.next('pls '+scan);
     return stdout;
   }
+
+  public getScanHistory(scan: string) {
+    const run = this.http.get(environment.url+"history", {
+      params: new HttpParams().set("scan", scan)
+    })
+    return firstValueFrom(run);
+  }
 }
