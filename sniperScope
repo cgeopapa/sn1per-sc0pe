@@ -2,7 +2,9 @@
 
 echo "========== This is a development deployment method =========="
 
-cd ui/
-node index.js > /dev/null &
-cd sc0pe/
+INSTALL_DIR="/usr/share/sniper"
+
+cd $INSTALL_DIR/ui/
+node index.js &
+cd $INSTALL_DIR/ui/sc0pe/
 npm start

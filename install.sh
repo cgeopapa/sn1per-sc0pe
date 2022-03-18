@@ -466,9 +466,9 @@ ln -fs /usr/share/sniper/loot/workspaces/ /home/kali/Desktop/workspaces 2> /dev/
 ln -fs /usr/share/sniper/loot/workspaces/ /root/Desktop/workspaces 2> /dev/null
 
 npm install -g @angular/cli
-cd ui/
+cd $INSTALL_DIR/ui/
 npm install
-cd sc0pe/
+cd $INSTALL_DIR/ui/sc0pe/
 npm install
 
 echo -e "$OKRED[>]$RESET Done! $RESET"
