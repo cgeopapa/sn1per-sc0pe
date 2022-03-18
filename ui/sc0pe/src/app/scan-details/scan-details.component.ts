@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ScanDaoService } from '../scan-dao.service';
 
 @Component({
@@ -14,6 +14,7 @@ export class ScanDetailsComponent implements OnInit {
   constructor(
     private dao: ScanDaoService,
     private activeRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -24,6 +25,10 @@ export class ScanDetailsComponent implements OnInit {
         console.table(this.history);
       })
     })
+  }
+
+  public home() {
+    this.router.navigateByUrl("/");
   }
 
 }
