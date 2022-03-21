@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ScanDaoService } from '../scan-dao.service';
@@ -9,7 +9,7 @@ import { ScanDaoService } from '../scan-dao.service';
   styleUrls: ['./terminal.component.scss']
 })
 export class TerminalComponent implements OnInit {
-  private scan = "";
+  @Input() scan = "";
   private pre: any;
 
   stdout: string[] = [];
@@ -22,7 +22,7 @@ export class TerminalComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.queryParams.subscribe(q => {
-      this.scan = q["scan"];
+      this.scan = this.scan === "" ? q["scan"] : this.scan;
       this.title.setTitle(`Sc0pe - Stdout of ${this.scan}`)
     });
     this.pre = document.getElementById("pre");
@@ -33,6 +33,6 @@ export class TerminalComponent implements OnInit {
   }
   
   public scrollToBottom() {
-    window.scrollTo(0,document.body.scrollHeight);
+    this.pre.scrollTop = this.pre.scrollHeight;
   }
 }

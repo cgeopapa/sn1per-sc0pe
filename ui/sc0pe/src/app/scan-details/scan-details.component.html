@@ -3,8 +3,22 @@
     <img src="../../assets/Barrett_.50cal_CoD4.webp" alt="sniper_scope">
 </div>
 <div class="p-2">
-    <h2>Selected scan: {{scan}}</h2>
-    <p-accordion class="m-2">
+    <h2>Current Scan: {{scan}}</h2>
+    <p-accordion class="m-4" [multiple]="true">
+        <p-accordionTab header="Controls" [selected]="true">
+            <div class="flex h-20rem">
+                <div class="w-10rem flex flex-column">
+                    <button pRipple pButton label="Execute" icon="pi pi-play" class="p-button-rounded m-2"
+                        (click)="execute()"></button>
+                    <button pRipple pButton label="Edit" icon="pi pi-pencil" class="p-button-rounded p-button-info m-2"></button>
+                    <button pRipple pButton label="Delete" icon="pi pi-trash" class="p-button-rounded p-button-danger m-2"
+                        (click)="deleteScan()"></button>
+                </div>
+                <div class="w-full h-full">
+                    <app-terminal [scan]="scan"></app-terminal>
+                </div>
+            </div>
+        </p-accordionTab>
         <p-accordionTab header="Scan History">
             <p-table [value]="history" styleClass="p-datatable-sm p-datatable-striped" [scrollable]="true" 
                 scrollHeight="250px" [resizableColumns]="true" sortMode="multiple">
@@ -27,5 +41,11 @@
             </p-table>
         </p-accordionTab>
     </p-accordion>
-
 </div>
+
+<p-confirmDialog #cda header="Confirmation" icon="pi pi-exclamation-triangle">
+    <ng-template pTemplate="footer">
+        <button type="button" pButton class="p-button-text p-button-sm" icon="pi pi-times" label="No" (click)="cda.reject()"></button>
+        <button type="button" pButton class="p-button-sm" icon="pi pi-check" label="Yes" (click)="cda.accept()"></button>
+    </ng-template>
+</p-confirmDialog>
