@@ -9,7 +9,7 @@ const fs = require('fs');
 const Convert = require('ansi-to-html');
 
 const configDir = '/usr/share/sniper/conf/'
-const scansFolder = '/usr/share/sniper/loot/workspace/';
+const workspacesFolder = '/usr/share/sniper/loot/workspace/';
 
 const app = express();
 const server = http.createServer(app);
@@ -41,7 +41,7 @@ wss.on('connection', sock => {
     console.log(s);
     if(s.startsWith("pls ")) {
       const scan = msg.toString().substring(4);
-      const path = `${scansFolder}${scan}`;
+      const path = `${workspacesFolder}${scan}`;
       const e = shell.exec(`tail -n1000 -f ${path}/scan.out`, {async: true, silent: true});
       e.stdout.on('data', function(data) {
         sock.send(convert.toHtml(data));
@@ -61,7 +61,7 @@ wss.on('connection', sock => {
 //
 function executeShell(req, res) {
   const scan = req.query.scan;
-  const path = `${scansFolder}${scan}`;
+  const path = `${workspacesFolder}${scan}`;
   const e = shell.exec(`yes Y | sudo bash ${path}/scan.sh > ${path}/scan.out`, {async: true});
   console.log("Request to execute ", scan)
 
@@ -83,11 +83,11 @@ function executeShell(req, res) {
 }
 
 //
-// ─── GET SCANS ──────────────────────────────────────────────────────────────────
+// ─── SCANS ──────────────────────────────────────────────────────────────────
 //
 function getScans(req, res) {
   res.setHeader('Content-Type', 'application/json');
-  let scans = fs.readdirSync(scansFolder, { withFileTypes: true });
+  let scans = fs.readdirSync(workspacesFolder, { withFileTypes: true });
   scans = scans.filter(s => s.isDirectory()).map(s => s.name)
 
   const scansFile = fs.readFileSync(scanStatusPath);
@@ -96,13 +96,87 @@ function getScans(req, res) {
   
   res.json(scans);
 }
+function getScan(req, res) {
+  const scan = req.query.scan;
+  const path = `${workspacesFolder}${scan}/scan.sh`;
+  try {
+    let out = fs.readFileSync(path).toString().trim();
+    out = out.split(" ")
+    let returnObj = {
+      name: null,
+      ip: null,
+      type: null,
+      sch: null,
+      config: null,
+      fp: false,
+      b: false,
+      o: false,
+      r: false,
+    };
+    let i = 2;
+    while(i < out.length) {
+      switch (out[i++]) {
+        case "-t":
+          returnObj.ip = out[i++]
+          break;
+        case "-m":
+          returnObj.type = out[i++];
+          break;
+        case "-s":
+          returnObj.sch = out[i++];
+          break;
+        case "-c":
+          returnObj.config = out[i++];
+          break;
+        case "-fp":
+          returnObj.fp = true;
+          i++;
+          break;
+        case "-b":
+          returnObj.b = true;
+          i++;
+          break;
+        case "-o":
+          returnObj.o = true;
+          i++;
+          break;
+        case "-re":
+          returnObj.re = true;
+          i++;
+          break;
+        case "-w":
+          returnObj.name = out[i++];
+          break;
+      }
+    }
+    res.json(returnObj);
+  } catch(e) {
+    console.log(e)
+    if(e.code === 'ENOENT') {
+      res.sendStatus(200);
+    }
+    else {
+      res.sendStatus(400);
+    }
+  }
 
-//
-// ─── DELETE SCNAS ───────────────────────────────────────────────────────────────
-//
+}
+function updateScan(req, res) {
+  const scan = req.query.scan;
+  const path = `${workspacesFolder}${scan}/scan.sh`;
+  const scanObj = req.body
+
+  fs.writeFileSync(path, scanObjToScript(scanObj, scan));
+  fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
+    if(err) console.log(err);
+  });
+  wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
+
+  res.sendStatus(200);
+}
 function deleteScan(req, res) {
   const scan = req.query.scan;
-  fs.rmSync(scansFolder+"/"+scan, {recursive: true, force: true});
+  fs.rmSync(workspacesFolder+"/"+scan, {recursive: true, force: true});
 
   delete scanStatus[scan];
   fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
@@ -112,25 +186,12 @@ function deleteScan(req, res) {
 
   res.sendStatus(200);
 }
-
-//
-// ─── CREATE SCAN ────────────────────────────────────────────────────────────────
-//
 function createScan(req, res) {
   const scan = req.query.scan;
-  const path = `${scansFolder}/${scan}`
+  const path = `${workspacesFolder}/${scan}`
   fs.mkdirSync(path)
-  const ip = req.query.ip;
-  const type = req.query.type;
-  
-  const sch = req.query.sch ? ` -s ${req.query.sch}` : "";
-  const config = req.query.config ? ` -c ${configDir}${req.query.config}` : "";
-  const fp = req.query.fp ? " -fp" : "";
-  const b = req.query.b ? " -b" : "";
-  const o = req.query.o ? " -o" : "";
-  const r = req.query.r ? " -re" : "";
 
-  fs.writeFileSync(`${path}/scan.sh`, `sudo sniper${sch} -t ${ip} -m ${type}${fp}${b}${o}${r} -w ${scan}${config}`)
+  fs.writeFileSync(`${path}/scan.sh`, scanObjToScript(req.body, scan))
   scanStatus[scan] = false;
   fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
     if(err) console.log(err);
@@ -141,7 +202,7 @@ function createScan(req, res) {
 }
 
 //
-// ─── GET CONFIGS ────────────────────────────────────────────────────────────────
+// ─── CONFIGS ────────────────────────────────────────────────────────────────
 //
 function getConfs(req, res) {
   res.setHeader('Content-Type', 'application/json');
@@ -165,19 +226,11 @@ function getConfig(req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.json(ret);
 }
-
-//
-// ─── CREATE CONFIG ──────────────────────────────────────────────────────────────
-//
 function createConfig(req, res) {
   const config = req.query.config;
   fs.copyFileSync(configDir+'default', configDir+config);
   res.sendStatus(200);
 }
-
-//
-// ─── DELETE CONFIG ──────────────────────────────────────────────────────────────
-//
 function deleteConfig(req, res) {
   const config = req.query.config;
   if (config !== "default") {
@@ -188,10 +241,6 @@ function deleteConfig(req, res) {
     res.sendStatus(301);
   }
 }
-
-//
-// ─── UPDATE CONFIG ──────────────────────────────────────────────────────────────
-//
 function updateConfig(req, res) {
   const configName = req.query.config;
   const config = req.body;
@@ -212,11 +261,11 @@ function updateConfig(req, res) {
 }
 
 //
-// ─── GET TASKS HISTORY ──────────────────────────────────────────────────────────
+// ─── TASKS HISTORY ──────────────────────────────────────────────────────────
 //
 function tasksHistory(req, res) {
   const scan = req.query.scan;
-  const path = `${scansFolder}${scan}/scans/tasks.txt`;
+  const path = `${workspacesFolder}${scan}/scans/tasks.txt`;
   try{
     const history = fs.readFileSync(path).toString().trim();
     r = history.split("\n");
@@ -233,8 +282,47 @@ function tasksHistory(req, res) {
   }
 }
 
+//
+// ─── OUTPUT ─────────────────────────────────────────────────────────────────
+//
+function getOutput(req, res) {
+  const scan = req.query.scan;
+  const path = `${workspacesFolder}${scan}/output.json`;
+  try {
+    const out = fs.readFileSync(path).toString().trim();
+    res.json(JSON.parse(out));
+  } catch(e) {
+    console.log(e)
+    if(e.code === 'ENOENT') {
+      res.sendStatus(200);
+    }
+    else {
+      res.sendStatus(400);
+    }
+  }
+}
+
+//
+// ─── UTILS ──────────────────────────────────────────────────────────────────────
+//
+function scanObjToScript(obj, scan) {
+  const ip = obj.ip;
+  const type = obj.type;
+  
+  const sch = obj.sch ? ` -s ${obj.sch}` : "";
+  const config = obj.config ? ` -c ${configDir}${obj.config}` : "";
+  const fp = obj.fp ? " -fp" : "";
+  const b = obj.b ? " -b" : "";
+  const o = obj.o ? " -o" : "";
+  const r = obj.r ? " -re" : "";
+
+  return `sudo sniper${sch} -t ${ip} -m ${type}${fp}${b}${o}${r} -w ${scan}${config}`;
+}
+
 app.get('/exec', executeShell);
-app.get("/scan", createScan);
+app.post("/scan", createScan);
+app.get("/scan", getScan);
+app.put("/scan", updateScan);
 app.delete("/scan", deleteScan);
 app.get("/scans", getScans);
 app.get("/configs", getConfs);
@@ -243,6 +331,7 @@ app.post("/config", createConfig);
 app.delete("/config", deleteConfig);
 app.put("/config", updateConfig);
 app.get("/history", tasksHistory);
+app.get("/output", getOutput);
 
 const PORT = 3001;
 

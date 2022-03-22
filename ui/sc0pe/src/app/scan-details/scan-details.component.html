@@ -10,7 +10,8 @@
                 <div class="w-10rem flex flex-column">
                     <button pRipple pButton label="Execute" icon="pi pi-play" class="p-button-rounded m-2"
                         (click)="execute()"></button>
-                    <button pRipple pButton label="Edit" icon="pi pi-pencil" class="p-button-rounded p-button-info m-2"></button>
+                    <button pRipple pButton label="Edit" icon="pi pi-pencil" class="p-button-rounded p-button-info m-2"
+                        (click)="editScan()"></button>
                     <button pRipple pButton label="Delete" icon="pi pi-trash" class="p-button-rounded p-button-danger m-2"
                         (click)="deleteScan()"></button>
                 </div>
@@ -40,6 +41,24 @@
                 </ng-template>
             </p-table>
         </p-accordionTab>
+        <p-accordionTab header="Results" [selected]="true">
+            <p-accordion>
+                <p-accordionTab header="Summary" [selected]="true">
+                    <p-table [value]="summary" styleClass="p-datatable-sm p-datatable-striped">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>IP/Domain</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-o>
+                            <tr>
+                                <td>{{o.domain}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-accordionTab>
+            </p-accordion>
+        </p-accordionTab>
     </p-accordion>
 </div>
 
@@ -49,3 +68,74 @@
         <button type="button" pButton class="p-button-sm" icon="pi pi-check" label="Yes" (click)="cda.accept()"></button>
     </ng-template>
 </p-confirmDialog>
+
+<p-dialog [(visible)]="visible" [modal]="true" [closeOnEscape]="true">
+    <ng-template pTemplate="header">
+        <h2 class="text-primary m-2 mb-4">Edit Scan</h2>
+    </ng-template>
+    <div class="surface-50 p-2 mt-4">
+        <div class="p-fluid grid">
+            <div class="field col">
+                <span class="p-float-label">
+                    <p-dropdown [options]="scanTypes" [(ngModel)]="scanObj.type" [autoDisplayFirst]="false"
+                        optionLabel="name" inputId="scanType" optionValue="n"></p-dropdown>
+                    <label for="scanType">Scan Type</label>
+                </span>
+                <small class="p-error" *ngIf="submitted && invalidScanType">Scan Type is required.</small>
+            </div>
+            <div class="field col">
+                <span class="p-float-label">
+                    <input type="text" pInputText [(ngModel)]="scanObj.ip"/>
+                    <label for="scanType">IP / Domain</label>
+                </span>
+                <small class="p-error" *ngIf="submitted && invalidIpDomain">IP or Domain is required.</small>
+            </div>
+            <div class="field col">
+                <span class="p-float-label">
+                    <p-inputNumber [(ngModel)]="scanObj.p" [min]="1" [max]="65535"></p-inputNumber>
+                    <label for="scanType">Port</label>
+                </span>
+                <small class="p-error" *ngIf="submitted && invalidPort">Port is required.</small>
+            </div>
+            <div class="field col">
+                <span class="p-float-label">
+                    <p-dropdown [options]="scheduleTypes" [(ngModel)]="scanObj.sch" [autoDisplayFirst]="false"
+                        optionLabel="name" inputId="scanType" optionValue="n" [showClear]="true"
+                        ></p-dropdown>
+                    <label for="scanType">Schedule</label>
+                </span>
+            </div>
+            <div class="field col">
+                <span class="p-float-label">
+                    <p-dropdown [options]="configs" [(ngModel)]="scanObj.config" [autoDisplayFirst]="false"
+                        inputId="config" [showClear]="true"
+                        ></p-dropdown>
+                    <label for="config">Configuration</label>
+                </span>
+            </div>
+        </div>
+        <div class="flex">
+            <div class="field-checkbox mr-4">
+                <p-checkbox [(ngModel)]="scanObj.fp" [binary]="true" inputId="fp"></p-checkbox>
+                <label for="fp">Full Port Scan</label>
+            </div>
+            <div class="field-checkbox mr-4">
+                <p-checkbox [(ngModel)]="scanObj.b" [binary]="true" inputId="b"></p-checkbox>
+                <label for="b">Brute Force</label>
+            </div>
+            <div class="field-checkbox mr-4">
+                <p-checkbox [(ngModel)]="scanObj.o" [binary]="true" inputId="o"></p-checkbox>
+                <label for="o">OSINT</label>
+            </div>
+            <div class="field-checkbox mr-4">
+                <p-checkbox [(ngModel)]="scanObj.r" [binary]="true" inputId="re"></p-checkbox>
+                <label for="re">Recon</label>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" label="Cancel" class="p-button-danger p-button-outlined mr-2" (click)="visible=false"></button>
+        <button pButton pRipple type="button" label="Update" (click)="updateScan()"></button>
+    </ng-template>
+</p-dialog>
+

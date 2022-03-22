@@ -47,7 +47,7 @@ export class ScanDaoService {
     if(b) params = params.append("b", b)
     if(o) params = params.append("o", o)
     if(r) params = params.append("r", r)
-    const create = this.http.get(environment.url+"scan", {
+    const create = this.http.post(environment.url+"scan", null, {
       params: params
     })
     return firstValueFrom(create);
@@ -86,4 +86,29 @@ export class ScanDaoService {
     })
     return firstValueFrom(run);
   }
+
+  public getScan(scan: string) {
+    const run = this.http.get(environment.url+"scan", {
+      responseType: "json",
+      params: new HttpParams().set("scan", scan),
+    })
+    return firstValueFrom(run);
+  }
+
+  public updateScan(scan: string, scanObj: any) {
+    const run = this.http.put(environment.url+"scan", scanObj, {
+      responseType: 'text',
+      params: new HttpParams().set("scan", scan),
+    })
+    return firstValueFrom(run);
+  }
+
+  public getOutput(scan: string) {
+    const run = this.http.get(environment.url+"output", {
+      responseType: "json",
+      params: new HttpParams().set("scan", scan)
+    })
+    return firstValueFrom(run);
+  }
+
 }
