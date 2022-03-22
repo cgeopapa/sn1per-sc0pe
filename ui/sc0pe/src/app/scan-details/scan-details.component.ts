@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { environment } from 'src/environments/environment';
+import { ConfigDaoService } from '../config-dao.service';
 import { ScanDaoService } from '../scan-dao.service';
 
 @Component({
@@ -26,10 +27,11 @@ export class ScanDetailsComponent implements OnInit {
   public invalidPort = true;
   public invalidScanName = true;
   public submitted = false;
-  @Input() configs: any = {};
+  public configs: any = {};
 
   constructor(
     private dao: ScanDaoService,
+    private configDao: ConfigDaoService,
     private activeRoute: ActivatedRoute,
     private router: Router,
     private confirmationService: ConfirmationService,
@@ -59,6 +61,9 @@ export class ScanDetailsComponent implements OnInit {
           this.summary.push(ip)
         });
       })
+    })
+    this.configDao.getConfigs().then((c: any) => {
+      this.configs = c;
     })
   }
 

@@ -78,7 +78,7 @@
             <div class="field col">
                 <span class="p-float-label">
                     <p-dropdown [options]="scanTypes" [(ngModel)]="scanObj.type" [autoDisplayFirst]="false"
-                        optionLabel="name" inputId="scanType" optionValue="n"></p-dropdown>
+                        optionLabel="name" inputId="scanType" optionValue="n" appendTo="body"></p-dropdown>
                     <label for="scanType">Scan Type</label>
                 </span>
                 <small class="p-error" *ngIf="submitted && invalidScanType">Scan Type is required.</small>
@@ -100,7 +100,7 @@
             <div class="field col">
                 <span class="p-float-label">
                     <p-dropdown [options]="scheduleTypes" [(ngModel)]="scanObj.sch" [autoDisplayFirst]="false"
-                        optionLabel="name" inputId="scanType" optionValue="n" [showClear]="true"
+                        optionLabel="name" inputId="scanType" optionValue="n" [showClear]="true" appendTo="body"
                         ></p-dropdown>
                     <label for="scanType">Schedule</label>
                 </span>
@@ -108,7 +108,7 @@
             <div class="field col">
                 <span class="p-float-label">
                     <p-dropdown [options]="configs" [(ngModel)]="scanObj.config" [autoDisplayFirst]="false"
-                        inputId="config" [showClear]="true"
+                        inputId="config" [showClear]="true" appendTo="body"
                         ></p-dropdown>
                     <label for="config">Configuration</label>
                 </span>
