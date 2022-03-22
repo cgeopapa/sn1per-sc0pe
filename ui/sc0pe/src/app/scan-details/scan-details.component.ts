@@ -50,13 +50,12 @@ export class ScanDetailsComponent implements OnInit {
         this.output.domains.scanned.forEach((i: any) => {
           let ip = {
             domain: i,
-            // dns: this.output[i].ips?.ips-all-sorted
-            // ports: this.output[i].nmap/ports-${domain}.txt,
-            // title: web/title-http-${domain}-80.txt
-            // server: web/headers-http(s)-${domain}-${port}.txt => json Server
-            // status: web/headers-http(s)-${domain}-${port}.txt => line 1
-            // fingerprint: web/title-http(s)-${domain}-${port}.txt
-            // risk: nmap/osfingerprint-${domain}.txt
+            ports: this.output[i].nmap.ports,
+            title: this.output[i].web["title-http"],
+            server: this.output[i].web["headers-http"].find((l: string) => l.startsWith("Server:")),
+            status: this.output[i].web["headers-http"][0],
+            fingerprint: this.output[i].nmap.osfingerprint,
+            risk: this.output[i].vulnerabilities["vulnerability-risk"],
           }
           this.summary.push(ip)
         });

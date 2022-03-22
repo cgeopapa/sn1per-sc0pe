@@ -56,11 +56,23 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>IP/Domain</th>
+                                <th>Open Ports</th>
+                                <th>Title</th>
+                                <th>Server</th>
+                                <th>Status</th>
+                                <th>Fingerprint</th>
+                                <th>Risk</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-o>
                             <tr>
                                 <td>{{o.domain}}</td>
+                                <td>{{o.ports.join(' ')}}</td>
+                                <td>{{o.title}}</td>
+                                <td>{{o.server}}</td>
+                                <td>{{o.status}}</td>
+                                <td>{{o.fingerprint}}</td>
+                                <td>{{o.risk}}</td>
                             </tr>
                         </ng-template>
                     </p-table>
