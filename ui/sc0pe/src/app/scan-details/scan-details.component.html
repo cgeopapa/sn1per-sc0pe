@@ -7,13 +7,19 @@
     <p-accordion class="m-4" [multiple]="true">
         <p-accordionTab header="Controls" [selected]="true">
             <div class="flex h-20rem">
-                <div class="w-10rem flex flex-column">
-                    <button pRipple pButton label="Execute" icon="pi pi-play" class="p-button-rounded m-2"
-                        (click)="execute()"></button>
-                    <button pRipple pButton label="Edit" icon="pi pi-pencil" class="p-button-rounded p-button-info m-2"
-                        (click)="editScan()"></button>
-                    <button pRipple pButton label="Delete" icon="pi pi-trash" class="p-button-rounded p-button-danger m-2"
-                        (click)="deleteScan()"></button>
+                <div class="w-15rem flex flex-column justify-content-between">
+                    <div class="flex flex-column">
+                        <button pRipple pButton label="Execute" icon="pi pi-play" class="p-button-rounded m-2"
+                            (click)="execute()"></button>
+                        <button pRipple pButton label="Edit" icon="pi pi-pencil" class="p-button-rounded p-button-info m-2"
+                            (click)="editScan()"></button>
+                        <button pRipple pButton label="Delete" icon="pi pi-trash" class="p-button-rounded p-button-danger m-2"
+                            (click)="deleteScan()"></button>
+                    </div>
+                    <div class="flex flex-column">
+                        <button pRipple pButton label="Edit Configurations" icon="pi pi-pencil" 
+                            class="p-button-rounded p-button-secondary p-button-outlined m-2" (click)="config()"></button>
+                    </div>
                 </div>
                 <div class="w-full h-full">
                     <app-terminal [scan]="scan"></app-terminal>

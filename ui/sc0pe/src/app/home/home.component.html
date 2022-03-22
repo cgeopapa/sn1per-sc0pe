@@ -2,7 +2,7 @@
     <h1 class="p-2 pl-4 text-5xl">Sc0pe for Sn1per</h1>
     <img src="../../assets/Barrett_.50cal_CoD4.webp" alt="sniper_scope">
 </div>
-<p-tabView>
+<p-tabView [(activeIndex)]="index">
     <p-tabPanel header="Scans" leftIcon="pi pi-search">
         <app-scans [configs]="configs"></app-scans>
     </p-tabPanel>

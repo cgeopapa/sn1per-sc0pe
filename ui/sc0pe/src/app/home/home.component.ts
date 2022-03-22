@@ -7,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   configs: any[] = [];
+  index = 0;
 
   constructor() { }
 
   ngOnInit(): void {
+    if (sessionStorage.getItem("config")) {
+      this.index = 1;
+      sessionStorage.removeItem("config");
+    }
   }
 
   getConfigs(configs: any) {

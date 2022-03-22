@@ -71,6 +71,11 @@ export class ScanDetailsComponent implements OnInit {
     this.router.navigateByUrl("/");
   }
 
+  public config() {
+    sessionStorage.setItem("config", "c");
+    this.home();
+  }
+
   public execute() {
     this.dao.runScan(this.scan);
   }
