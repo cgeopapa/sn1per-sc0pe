@@ -51,7 +51,7 @@ export class ScanDetailsComponent implements OnInit {
           let ip = {
             domain: i,
             // dns: this.output[i].ips?.ips-all-sorted
-            // ports: this.output[i].nmap/ports-${domain}.com.txt
+            // ports: this.output[i].nmap/ports-${domain}.txt,
             // title: web/title-http-${domain}-80.txt
             // server: web/headers-http(s)-${domain}-${port}.txt => json Server
             // status: web/headers-http(s)-${domain}-${port}.txt => line 1
@@ -74,6 +74,10 @@ export class ScanDetailsComponent implements OnInit {
   public config() {
     sessionStorage.setItem("config", "c");
     this.home();
+  }
+
+  public terminal() {
+    window.open("/terminal?scan="+this.scan, "_blank")
   }
 
   public execute() {

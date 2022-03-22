@@ -21,8 +21,10 @@
                             class="p-button-rounded p-button-secondary p-button-outlined m-2" (click)="config()"></button>
                     </div>
                 </div>
-                <div class="w-full h-full">
+                <div id="term" class="w-full h-full relative">
                     <app-terminal [scan]="scan"></app-terminal>
+                    <button pRipple pButton class="absolute top-0 right-0 p-button-secondary p-button-lg" 
+                        icon="pi pi-reply" (click)="terminal()"></button>
                 </div>
             </div>
         </p-accordionTab>

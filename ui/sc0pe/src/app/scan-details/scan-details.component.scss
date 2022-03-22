@@ -2,3 +2,16 @@ img {
     aspect-ratio: initial;
     height: 4rem;
 }
+
+#term {
+    button {
+        opacity: 0;
+        transition: opacity .4s ease-out;
+    }
+}
+
+#term:hover {
+    button {
+        opacity: 1;
+    }
+}
