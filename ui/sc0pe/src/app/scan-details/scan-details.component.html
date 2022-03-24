@@ -5,6 +5,32 @@
 <div class="p-2">
     <h2>Current Scan: {{scan}}</h2>
     <p-accordion class="m-4" [multiple]="true">
+        <p-accordionTab header="Summary" [selected]="true">
+            <p-table [value]="summary" styleClass="p-datatable-sm p-datatable-striped">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>IP/Domain</th>
+                        <th>Open Ports</th>
+                        <th>Title</th>
+                        <th>Server</th>
+                        <th>Status</th>
+                        <th>Fingerprint</th>
+                        <th>Risk</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-o>
+                    <tr>
+                        <td>{{o.domain}}</td>
+                        <td>{{o.ports.join(' ')}}</td>
+                        <td>{{o.title}}</td>
+                        <td>{{o.server}}</td>
+                        <td>{{o.status}}</td>
+                        <td>{{o.fingerprint}}</td>
+                        <td>{{o.risk}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-accordionTab>
         <p-accordionTab header="Controls" [selected]="true">
             <div class="flex h-20rem">
                 <div class="w-15rem flex flex-column justify-content-between">
@@ -23,8 +49,8 @@
                 </div>
                 <div id="term" class="w-full h-full relative">
                     <app-terminal [scan]="scan"></app-terminal>
-                    <button pRipple pButton class="absolute top-0 right-0 p-button-secondary p-button-lg" 
-                        icon="pi pi-reply" (click)="terminal()"></button>
+                    <button pRipple pButton class="absolute top-0 right-0 p-button-secondary p-button-lg m-2"
+                        icon="pi pi-window-maximize" (click)="terminal()" pTooltip="Fullscreen" tooltipPosition="left"></button>
                 </div>
             </div>
         </p-accordionTab>
@@ -50,32 +76,35 @@
             </p-table>
         </p-accordionTab>
         <p-accordionTab header="Results" [selected]="true">
-            <p-accordion>
-                <p-accordionTab header="Summary" [selected]="true">
-                    <p-table [value]="summary" styleClass="p-datatable-sm p-datatable-striped">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>IP/Domain</th>
-                                <th>Open Ports</th>
-                                <th>Title</th>
-                                <th>Server</th>
-                                <th>Status</th>
-                                <th>Fingerprint</th>
-                                <th>Risk</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-o>
-                            <tr>
-                                <td>{{o.domain}}</td>
-                                <td>{{o.ports.join(' ')}}</td>
-                                <td>{{o.title}}</td>
-                                <td>{{o.server}}</td>
-                                <td>{{o.status}}</td>
-                                <td>{{o.fingerprint}}</td>
-                                <td>{{o.risk}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
+            <p-accordion [multiple]="true">
+                <p-accordionTab *ngFor="let ip of outputDomain" [header]="ip" [selected]="true">
+                    <p-accordion [multiple]="true">
+                        <p-accordionTab *ngFor="let item of getObjectKeys(output[ip])" [selected]="!isEmptyObject(output[ip][item])">
+                            <ng-template pTemplate="header">
+                                <h3>{{item}}</h3>
+                            </ng-template>
+                            <p-fieldset [legend]="subItem" [toggleable]="true" *ngFor="let subItem of getObjectKeys(output[ip][item])">
+                                <pre class="surface-100 border-round p-4 overflow-auto">{{objectToDisplay(output[ip][item][subItem])}}</pre>
+                            </p-fieldset>
+                        </p-accordionTab>
+                    </p-accordion>
+                </p-accordionTab>
+                <p-accordionTab header="General" [selected]="true">
+                    <p-accordion [multiple]="true">
+                        <p-accordionTab *ngFor="let item of outputGeneral" [selected]="!isEmptyObject(output[item])">
+                            <ng-template pTemplate="header">
+                                <h3>{{item}}</h3>
+                            </ng-template>
+                            <div *ngFor="let subItem of getObjectKeys(output[item])">
+                                <p-fieldset [legend]="subItem" [toggleable]="true" *ngIf="isList(output[item][subItem]); else elseBlock">
+                                    <pre class="surface-100 border-round p-4">{{objectToDisplay(output[item][subItem])}}</pre>
+                                </p-fieldset>
+                                <ng-template #elseBlock>
+                                    <pre>{{subItem}}: {{objectToDisplay(output[item][subItem])}}</pre>
+                                </ng-template>
+                            </div>
+                        </p-accordionTab>
+                    </p-accordion>
                 </p-accordionTab>
             </p-accordion>
         </p-accordionTab>
@@ -159,3 +188,4 @@
     </ng-template>
 </p-dialog>
 
+<p-scrollTop></p-scrollTop>

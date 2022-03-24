@@ -20,6 +20,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import {AccordionModule} from 'primeng/accordion';
 import {FieldsetModule} from 'primeng/fieldset';
+import {ScrollTopModule} from 'primeng/scrolltop';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -59,6 +60,7 @@ import { ScanDetailsComponent } from './scan-details/scan-details.component';
     ConfirmDialogModule,
     AccordionModule,
     FieldsetModule,
+    ScrollTopModule,
   ],
   providers: [
     ConfirmationService

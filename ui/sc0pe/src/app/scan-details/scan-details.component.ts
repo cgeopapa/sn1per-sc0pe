@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { environment } from 'src/environments/environment';
@@ -15,6 +16,8 @@ export class ScanDetailsComponent implements OnInit {
 
   history: any = {};
   output: any = {};
+  outputDomain: string[] = [];
+  outputGeneral: string[] = [];
 
   summary: any[] = [];
 
@@ -35,9 +38,11 @@ export class ScanDetailsComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private router: Router,
     private confirmationService: ConfirmationService,
+    private titleService: Title,
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle(`Sc0pe - Results of ${this.scan}`)
     this.activeRoute.queryParams.subscribe(params => {
       this.scan = params['n'];
       this.dao.getScanHistory(params['n']).then((h: any) => {
@@ -45,25 +50,74 @@ export class ScanDetailsComponent implements OnInit {
       })
       this.dao.getOutput(this.scan).then((o: any) => {
         this.output = o;
+        this.outputGeneral = Object.keys(this.output);
         console.log(this.output);
-
+        
         this.output.domains.scanned.forEach((i: any) => {
-          let ip = {
-            domain: i,
-            ports: this.output[i].nmap.ports,
-            title: this.output[i].web["title-http"],
-            server: this.output[i].web["headers-http"].find((l: string) => l.startsWith("Server:")),
-            status: this.output[i].web["headers-http"][0],
-            fingerprint: this.output[i].nmap.osfingerprint,
-            risk: this.output[i].vulnerabilities["vulnerability-risk"],
+          if (this.output[i].web["title-http"]) {
+            let ip = {
+              domain: i,
+              ports: this.output[i].nmap.ports,
+              title: this.output[i].web["title-http"],
+              server: this.output[i].web["headers-http"].find((l: string) => l.startsWith("Server:")),
+              status: this.output[i].web["headers-http"][0],
+              fingerprint: this.output[i].nmap.osfingerprint,
+              risk: this.output[i].vulnerabilities["vulnerability-risk"],
+            }
+            this.summary.push(ip);
           }
-          this.summary.push(ip)
+          else {
+            let ip = {
+              domain: i,
+              ports: this.output[i].nmap.ports,
+              title: this.output[i].web["title-http-80"],
+              server: this.output[i].web["headers-http-80"].find((l: string) => l.startsWith("Server:")),
+              status: this.output[i].web["headers-http-80"][0],
+              fingerprint: this.output[i].nmap.osfingerprint,
+              risk: this.output[i].vulnerabilities["vulnerability-risk"],
+            }
+            this.summary.push(ip);
+
+            ip = {
+              domain: i,
+              ports: this.output[i].nmap.ports,
+              title: this.output[i].web["title-https-443"],
+              server: this.output[i].web["headers-https-443"].find((l: string) => l.startsWith("Server:")),
+              status: this.output[i].web["headers-https-443"][0],
+              fingerprint: this.output[i].nmap.osfingerprint,
+              risk: this.output[i].vulnerabilities["vulnerability-risk"],
+            }
+            this.summary.push(ip);
+          }
+          this.outputDomain.push(i);
+          this.outputGeneral = this.outputGeneral.filter((k: string) => k !== i)
         });
       })
     })
     this.configDao.getConfigs().then((c: any) => {
       this.configs = c;
     })
+  }
+
+  public isList(obj: any) {
+    return Array.isArray(obj);
+  }
+
+  public objectToDisplay(obj: any) {
+    try {
+      return obj.join("\n");
+    }
+    catch (e) {
+      return obj;
+    }
+  }
+
+  public getObjectKeys(obj: any) {
+    return Object.keys(obj);
+  }
+
+  public isEmptyObject(obj: any) {
+    return Object.keys(obj).length === 0;
   }
 
   public home() {

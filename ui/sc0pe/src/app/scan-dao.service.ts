@@ -35,20 +35,20 @@ export class ScanDaoService {
   }
 
   public createScan(ip: string, type: string, scan: string, port: number | null, sch: string | null, config: string | null, fp: boolean, b: boolean, o: boolean, r: boolean) {
-    let params = new HttpParams().appendAll({
+    let scanObj: any = {
       "ip": ip,
       "type": type,
       "scan": scan,
-    })
-    if(port) params = params.append("port", port)
-    if(sch) params = params.append("sch", sch)
-    if(config) params = params.append("config", config)
-    if(fp) params = params.append("fp", fp)
-    if(b) params = params.append("b", b)
-    if(o) params = params.append("o", o)
-    if(r) params = params.append("r", r)
-    const create = this.http.post(environment.url+"scan", null, {
-      params: params
+    }
+    if(port) scanObj["port"] = port
+    if(sch) scanObj["sch"] = sch
+    if(config) scanObj["config"] = config
+    if(fp) scanObj["fp"] = fp
+    if(b) scanObj["b"] = b
+    if(o) scanObj["o"] = o
+    if(r) scanObj["r"] = r
+    const create = this.http.post(environment.url+"scan", scanObj, {
+      params: new HttpParams().set("scan", scan)
     })
     return firstValueFrom(create);
   }

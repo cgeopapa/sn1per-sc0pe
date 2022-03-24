@@ -301,6 +301,10 @@ function getOutput(req, res) {
     }
   }
 }
+function openFileExplorer(req, res) {
+  const scan = req.query.scan;
+  const path = `${workspacesFolder}${scan}`;
+}
 
 //
 // ─── UTILS ──────────────────────────────────────────────────────────────────────
