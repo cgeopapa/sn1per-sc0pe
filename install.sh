@@ -39,6 +39,7 @@ fi
 mkdir -p $INSTALL_DIR 2> /dev/null
 chmod 755 -Rf $INSTALL_DIR 2> /dev/null
 chown root $INSTALL_DIR/sniper 2> /dev/null
+chown root $INSTALL_DIR/sniperScope 2> /dev/null
 mkdir -p $LOOT_DIR 2> /dev/null
 mkdir $LOOT_DIR/domains 2> /dev/null
 mkdir $LOOT_DIR/screenshots 2> /dev/null
@@ -425,13 +426,14 @@ mkdir $LOOT_DIR/domains -p 2> /dev/null
 mkdir $LOOT_DIR/output -p 2> /dev/null
 mkdir $LOOT_DIR/reports -p 2> /dev/null
 chmod +x $INSTALL_DIR/sniper
+chmod +x $INSTALL_DIR/sniperScope
 chmod +x $PLUGINS_DIR/Goohak/goohak
 rm -f /usr/bin/sniper
 rm -f /usr/bin/sniperScope
 rm -f /usr/bin/goohak
 rm -f /usr/bin/dirsearch
 ln -s $INSTALL_DIR/sniper /usr/bin/sniper 2> /dev/null
-ln -s $INSTALL_DIR/sniperSc0pe /usr/bin/sniperScope 2> /dev/null
+ln -s $INSTALL_DIR/sniperScope /usr/bin/sniperScope 2> /dev/null
 ln -s $PLUGINS_DIR/Goohak/goohak /usr/bin/goohak 2> /dev/null
 ln -s $PLUGINS_DIR/dirsearch/dirsearch.py /usr/bin/dirsearch 2> /dev/null
 ln -s /usr/share/sniper /sniper 2> /dev/null
