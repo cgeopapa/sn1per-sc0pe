@@ -56,7 +56,7 @@ if [[ "$OSINT" = "1" ]]; then
 		echo -e "${OKGREEN}====================================================================================${RESET}•x${OKGREEN}[`date +"%Y-%m-%d](%H:%M)"`${RESET}x•"
 		echo -e "$OKRED GATHERING EMAILS FROM EMAIL-FORMAT.COM $RESET"
 		echo -e "${OKGREEN}====================================================================================${RESET}•x${OKGREEN}[`date +"%Y-%m-%d](%H:%M)"`${RESET}x•"
-		curl -s https://www.email-format.com/d/$TARGET| grep @$TARGET | grep -v div | sed "s/\t//g" | sed "s/ //g" 2> /dev/null | tee $LOOT_DIR/osint/email-format-$TARGET.txt 2> /dev/null 
+		curl -s https://www.email-format.com/d/$TARGET/| grep @$TARGET | grep -v div | sed "s/\t//g" | sed "s/ //g" 2> /dev/null | tee $LOOT_DIR/osint/email-format-$TARGET.txt 2> /dev/null 
 
 		if [[ "$SLACK_NOTIFICATIONS_EMAIL_FORMAT" == "1" ]]; then
 			/bin/bash "$INSTALL_DIR/bin/slack.sh" postfile "$LOOT_DIR/osint/email-format-$TARGET.txt"

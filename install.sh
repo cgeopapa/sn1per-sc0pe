@@ -122,13 +122,14 @@ apt-get install -y xvfb
 apt-get install -y urlcrazy
 apt-get install -y iputils-ping
 apt-get install -y enum4linux
+apt-get install -y dnsutils
 
 echo -e "$OKBLUE[*]$RESET Installing Metasploit...$RESET"
 curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall
 chmod 755 /tmp/msfinstall
 /tmp/msfinstall
 
-pip3 install dnspython colorama tldextract urllib3 ipaddress requests
+pip3 install dnspython colorama tldextract urllib3 ipaddress requests cloudscraper
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
 
 echo -e "$OKBLUE[*]$RESET Installing gem dependencies...$RESET"

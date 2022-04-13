@@ -188,7 +188,7 @@ function deleteScan(req, res) {
 }
 function createScan(req, res) {
   const scan = req.query.scan;
-  const path = `${workspacesFolder}/${scan}`
+  const path = `${workspacesFolder}${scan}`
   fs.mkdirSync(path)
 
   fs.writeFileSync(`${path}/scan.sh`, scanObjToScript(req.body, scan))
@@ -320,7 +320,7 @@ function scanObjToScript(obj, scan) {
   const o = obj.o ? " -o" : "";
   const r = obj.r ? " -re" : "";
 
-  return `sudo sniper${sch} -t ${ip} -m ${type}${fp}${b}${o}${r} -w ${scan}${config}`;
+  return `sudo sniper${sch}${config} -t ${ip} -m ${type}${fp}${b}${o}${r} -w ${scan}`;
 }
 
 app.get('/exec', executeShell);
