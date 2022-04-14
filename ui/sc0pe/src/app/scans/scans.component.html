@@ -9,7 +9,10 @@
         </ng-template>
         <ng-template pTemplate="body" let-scan>
             <tr>
-                <td> <i class="pi pi-spin pi-spinner" *ngIf="scanStatus[scan]"></i><button pButton class="p-button-link" [label]="scan" (click)="scanDetails(scan)"></button></td>
+                <td> 
+                    <i class="pi pi-spin pi-spinner" *ngIf="scanStatus[scan]"></i>
+                    <button pButton class="p-button-link" [label]="scan" [disabled]="scanStatus[scan]" (click)="scanDetails(scan)"></button>
+                </td>
                 <td>
                     <button pButton pRipple icon="pi pi-play" pTooltip="Run scan" tooltipPosition="top"
                         class="p-button-rounded mr-2" (click)="runScan(scan)" [disabled]="scanStatus[scan]"></button>

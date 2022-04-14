@@ -2,8 +2,6 @@
 # Install script for Sn1per CE
 # Created by @xer0dayz - https://sn1persecurity.com
 
-# TODO: ADD NODEJS & WEBSOCKETD INSTALL
-
 OKBLUE='\033[94m'
 OKRED='\033[91m'
 OKGREEN='\033[92m'
@@ -123,6 +121,7 @@ apt-get install -y urlcrazy
 apt-get install -y iputils-ping
 apt-get install -y enum4linux
 apt-get install -y dnsutils
+apt-get install -y proxychains4
 
 echo -e "$OKBLUE[*]$RESET Installing Metasploit...$RESET"
 curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall
@@ -417,6 +416,14 @@ cd $PLUGINS_DIR/Findsploit/ && bash install.sh 2> /dev/null
 echo -e "$OKBLUE[*]$RESET Installing GooHak...$RESET"
 cd $PLUGINS_DIR
 git clone https://github.com/1N3/Goohak.git
+
+# pagodo INSTALLER
+echo -e "$OKBLUE[*]$RESET Installing pagodo...$RESET"
+cd $PLUGINS_DIR
+git clone https://github.com/cgeopapa/pagodo.git
+cd $PLUGINS_DIR/pagodo
+pip install -r requirements.txt
+python3 ghdb_scraper.py -s -j -i
 
 echo -e "$OKBLUE[*]$RESET Setting up environment...$RESET"
 cd $INSTALL_DIR

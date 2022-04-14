@@ -188,6 +188,9 @@ function update {
   if [[ "$ONLINE" == "0" ]]; then
     echo "You will need to download the latest release manually at https://github.com/1N3/Sn1per/"
   else
+    cd $PLUGINS_DIR/pagodo
+    python ghdb_scraper.py -s -j -i
+    cd $INSTALL_DIR
     if [[ -f "$INSTALL_DIR/pro/settings.php" ]]; then
       LICENSE_KEY=$(grep "LICENSE_KEY" $INSTALL_DIR/pro/settings.php | cut -d\" -f2 )
       VERSION=$(grep 9.0 $INSTALL_DIR/pro.sh | wc -c)
