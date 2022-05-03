@@ -1,10 +1,9 @@
 from random import random
 from time import sleep
-from urllib.parse import urlencode
+from urllib.parse import quote
 import cloudscraper
 import sys
 import json
-import urllib.parse
 from os import path
 
 def checkMails():
@@ -16,7 +15,7 @@ def checkMails():
         with open(sys.argv[1], "r") as emails:
             result = ""
             for email in emails:
-                urlencoded = urllib.parse.quote(email.strip())
+                urlencoded = quote(email.strip())
                 req = scraper.get(f"https://haveibeenpwned.com/unifiedsearch/{urlencoded}")
                 if req.status_code == 403 or req.status_code == 429:
                     print(f"Got resonse code {req.status_code}")
@@ -35,7 +34,7 @@ def checkMails():
 if __name__ == "__main__":
     res = checkMails()
     while res == False:
-        w = round(random()*30 + 20, 1)
+        w = round(random()*30 + 60, 1)
         print(f"Retrying after {w} secconds")
         sleep(w)
         res = checkMails()

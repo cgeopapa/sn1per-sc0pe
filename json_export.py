@@ -38,10 +38,10 @@ for dir in dirs:
     for (dirpath, d, files) in os.walk(os.path.join(loot, dir)):
         for file in files:
             name = os.path.splitext(file)
-            if not any(word in name[0] for word in ["unsorted"]) and (name[1] not in [".xml", ".html", ".old", ".diff", ""]):
+            if not any(word in name[0] for word in ["unsorted"]) and (name[1] not in [".xml", ".html", ".old", ".diff", ".pdf", ""]):
                 f = open(os.path.join(dirpath, file), "r", encoding="unicode_escape")
                 found = False
-                contents = f.read().strip().split("\n")
+                contents = f.readlines()
                 contents = [c.strip() for c in contents]
                 for ip in domains:
                     if ip in [s.strip() for s in re.split("-|_", name[0])]:

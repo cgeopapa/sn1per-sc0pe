@@ -516,10 +516,8 @@ function loot {
     echo -e "$OKRED /____/_/ /_/___/ .___/\___/_/     $RESET"
     echo -e "$OKRED               /_/                 $RESET"
     echo ""
-    JSON="1"
     if [[ ! -z $WORKSPACE_DIR ]]; then
       LOOT_DIR=$WORKSPACE_DIR
-      $JSON="0"
     fi
     rm -f $INSTALL_DIR/stash.sqlite 2> /dev/null
     rm -f $INSTALL_DIR/hydra.restore 2> /dev/null
@@ -583,10 +581,8 @@ function loot {
     find $LOOT_DIR/osint/ -type f -size -1c -exec rm -f {} \;
     find $LOOT_DIR/vulnerabilities/ -type f -size -1c -exec rm -f {} \;
     cd $INSTALL_DIR
-    if [[ "$JSON" == "1" ]]; then
-      echo -e "$OKORANGE + -- --=[ Creating JSON with loot...$RESET"
-      python3 $INSTALL_DIR/json_export.py $WORKSPACE
-    fi
+    echo -e "$OKORANGE + -- --=[ Creating JSON with loot...$RESET"
+    python3 $INSTALL_DIR/json_export.py $WORKSPACE
     cd $LOOT_DIR
     if [[ -f $SNIPER_PRO ]]; then
       wc -l $LOOT_DIR/scans/notifications.txt 2> /dev/null | awk '{print $1}' > $LOOT_DIR/scans/notifications_total.txt 2> /dev/null

@@ -54,41 +54,25 @@ export class ScanDetailsComponent implements OnInit {
         console.log(this.output);
         
         this.output.domains.scanned.forEach((i: any) => {
-          if (this.output[i].web["title-http"]) {
-            let ip = {
-              domain: i,
-              ports: this.output[i].nmap.ports,
-              title: this.output[i].web["title-http"],
-              server: this.output[i].web["headers-http"].find((l: string) => l.startsWith("Server:")),
-              status: this.output[i].web["headers-http"][0],
-              fingerprint: this.output[i].nmap.osfingerprint,
-              risk: this.output[i].vulnerabilities["vulnerability-risk"],
-            }
-            this.summary.push(ip);
-          }
-          else {
-            let ip = {
-              domain: i,
-              ports: this.output[i].nmap.ports,
-              title: this.output[i].web["title-http-80"],
-              server: this.output[i].web["headers-http-80"].find((l: string) => l.startsWith("Server:")),
-              status: this.output[i].web["headers-http-80"][0],
-              fingerprint: this.output[i].nmap.osfingerprint,
-              risk: this.output[i].vulnerabilities["vulnerability-risk"],
-            }
-            this.summary.push(ip);
+          const webKeys = Object.keys(this.output[i].web);
+          const headerKey = webKeys.find((l: string) => l.startsWith("headers-http"));
+          const titleKey = webKeys.find((l: string) => l.startsWith("title-http"));
 
-            ip = {
-              domain: i,
-              ports: this.output[i].nmap.ports,
-              title: this.output[i].web["title-https-443"],
-              server: this.output[i].web["headers-https-443"].find((l: string) => l.startsWith("Server:")),
-              status: this.output[i].web["headers-https-443"][0],
-              fingerprint: this.output[i].nmap.osfingerprint,
-              risk: this.output[i].vulnerabilities["vulnerability-risk"],
-            }
-            this.summary.push(ip);
+          let ip: any = {
+            domain: i,
+            ports: this.output[i].nmap.ports,
+            fingerprint: this.output[i].nmap.osfingerprint,
+            risk: this.output[i].vulnerabilities["vulnerability-risk"],
           }
+
+          if(titleKey){
+            ip["title"] = this.output[i].web[titleKey]
+          }
+          if(headerKey) {
+            ip.server = this.output[i].web[headerKey].find((l: string) => l.startsWith("Server:"));
+            ip.status = this.output[i].web[headerKey][0]
+          }
+          this.summary.push(ip);
           this.outputDomain.push(i);
           this.outputGeneral = this.outputGeneral.filter((k: string) => k !== i)
         });
