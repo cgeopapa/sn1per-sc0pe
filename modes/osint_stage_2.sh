@@ -1,8 +1,5 @@
   if [[ $SCAN_TYPE == "DOMAIN" ]] && [[ $OSINT == "1" ]]; then
     echo "[sn1persecurity.com] •?((¯°·._.• Started Sn1per stage 2 OSINT scan: $TARGET [$MODE] (`date +"%Y-%m-%d %H:%M"`) •._.·°¯))؟•" >> $LOOT_DIR/scans/notifications_new.txt
-    if [[ "$HAVEIBEENPWNED" == "1" ]]; then
-      python3 $INSTALL_DIR/bin/haveibeenpwned.py $LOOT_DIR/osing/email-format-$TARGET.txt
-    fi
     if [[ "$SLACK_NOTIFICATIONS" == "1" ]]; then
       /bin/bash "$INSTALL_DIR/bin/slack.sh" "[sn1persecurity.com] •?((¯°·._.• Started Sn1per stage 2 OSINT scan: $TARGET [$MODE] (`date +"%Y-%m-%d %H:%M"`) •._.·°¯))؟•"
     fi

@@ -189,7 +189,7 @@ function deleteScan(req, res) {
 function createScan(req, res) {
   const scan = req.query.scan;
   const path = `${workspacesFolder}${scan}`
-  fs.mkdirSync(path)
+  fs.mkdirSync(path, {recursive: true})
 
   fs.writeFileSync(`${path}/scan.sh`, scanObjToScript(req.body, scan))
   scanStatus[scan] = false;
