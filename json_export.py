@@ -41,8 +41,12 @@ for dir in dirs:
             if not any(word in name[0] for word in ["unsorted"]) and (name[1] not in [".xml", ".html", ".old", ".diff", ".pdf", ""]):
                 f = open(os.path.join(dirpath, file), "r", encoding="unicode_escape")
                 found = False
-                contents = f.readlines()
-                contents = [c.strip() for c in contents]
+                if name[1] == ".json":
+                    f = open(os.path.join(dirpath, file), "r")
+                    contents = json.loads(f.read())
+                else:
+                    contents = f.readlines()
+                    contents = [c.strip() for c in contents]
                 for ip in domains:
                     if ip in [s.strip() for s in re.split("-|_", name[0])]:
                         n = name[0].replace("-"+ip, "")

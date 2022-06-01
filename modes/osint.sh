@@ -76,8 +76,11 @@ if [[ "$OSINT" = "1" ]]; then
 		fi
 	fi
 	if [[ "$HAVEIBEENPWNED" == "1" ]]; then
-      python3 $INSTALL_DIR/bin/haveibeenpwned.py $LOOT_DIR/osing/email-format-$TARGET.txt
-    fi
+		echo -e "${OKGREEN}====================================================================================${RESET}•x${OKGREEN}[`date +"%Y-%m-%d](%H:%M)"`${RESET}x•"
+		echo -e "$OKRED CHECKING FOR PWNED EMAILS $RESET"
+		echo -e "${OKGREEN}====================================================================================${RESET}•x${OKGREEN}[`date +"%Y-%m-%d](%H:%M)"`${RESET}x•"
+		python3 $INSTALL_DIR/bin/haveibeenpwned.py $LOOT_DIR/osint/email-format-$TARGET.txt
+	fi
 
 	if [[ "$URLCRAZY" == "1" ]]; then
 		echo -e "${OKGREEN}====================================================================================${RESET}•x${OKGREEN}[`date +"%Y-%m-%d](%H:%M)"`${RESET}x•"

@@ -77,17 +77,22 @@
         </p-accordionTab>
         <p-accordionTab header="Results" [selected]="true">
             <p-accordion [multiple]="true">
-                <p-accordionTab *ngFor="let ip of outputDomain" [header]="ip" [selected]="true">
-                    <p-accordion [multiple]="true">
-                        <p-accordionTab *ngFor="let item of getObjectKeys(output[ip])" [selected]="!isEmptyObject(output[ip][item])">
-                            <ng-template pTemplate="header">
-                                <h3>{{item}}</h3>
-                            </ng-template>
-                            <p-fieldset [legend]="subItem" [toggleable]="true" *ngFor="let subItem of getObjectKeys(output[ip][item])">
-                                <pre class="surface-100 border-round p-4 overflow-auto">{{objectToDisplay(output[ip][item][subItem])}}</pre>
-                            </p-fieldset>
-                        </p-accordionTab>
-                    </p-accordion>
+                <p-accordionTab *ngFor="let ip of outputDomain" [selected]="true">
+                    <ng-template pTemplate="header">
+                        <h2>Host: {{ip}}</h2>
+                    </ng-template>
+                    <div class="ml-4">
+                        <p-accordion [multiple]="true">
+                            <p-accordionTab *ngFor="let item of getObjectKeys(output[ip])" [selected]="!isEmptyObject(output[ip][item])">
+                                <ng-template pTemplate="header" class="h-1rem">
+                                    <h3>{{item}}</h3>
+                                </ng-template>
+                                <p-fieldset [legend]="subItem" [toggleable]="true" *ngFor="let subItem of getObjectKeys(output[ip][item])">
+                                    <pre class="surface-100 border-round p-4 overflow-auto">{{objectToDisplay(output[ip][item][subItem])}}</pre>
+                                </p-fieldset>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
                 </p-accordionTab>
                 <p-accordionTab header="General" [selected]="true">
                     <p-accordion [multiple]="true">
