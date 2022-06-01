@@ -87,7 +87,14 @@ export class ScanDetailsComponent implements OnInit {
     return Array.isArray(obj);
   }
 
-  public objectToDisplay(obj: any) {
+  public objectToDisplay(obj: any, subItem: string) {
+    if(subItem === "pwned_emails") {
+      const ret = [];
+      for(let pwned of obj) {
+        ret.push(`${pwned.email} found in ${pwned.Breaches.length} breaches. https://haveibeenpwned.com/unifiedsearch/${encodeURIComponent(pwned.email)}`)
+      }
+      return ret.join("\n");
+    }
     try {
       return obj.join("\n");
     }

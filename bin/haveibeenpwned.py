@@ -24,7 +24,9 @@ def checkMails():
                 resp = str(req.text).strip()
                 if req.status_code == 200:
                     print(f"{email.strip()} is PWNED")
-                    result.append(json.loads(resp))
+                    j = json.loads(resp)
+                    j["email"] = email.strip()
+                    result.append(j)
         domain = sys.argv[2]
         with open(path.join(dir, f"pwned_emails-{domain}.json"), "w") as pwned:
             pwned.write(json.dumps(result, indent=1))

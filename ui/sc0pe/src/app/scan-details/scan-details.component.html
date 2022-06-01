@@ -88,7 +88,7 @@
                                     <h3>{{item}}</h3>
                                 </ng-template>
                                 <p-fieldset [legend]="subItem" [toggleable]="true" *ngFor="let subItem of getObjectKeys(output[ip][item])">
-                                    <pre class="surface-100 border-round p-4 overflow-auto">{{objectToDisplay(output[ip][item][subItem])}}</pre>
+                                    <pre class="surface-100 border-round p-4 overflow-auto">{{objectToDisplay(output[ip][item][subItem], subItem)}}</pre>
                                 </p-fieldset>
                             </p-accordionTab>
                         </p-accordion>
@@ -102,10 +102,10 @@
                             </ng-template>
                             <div *ngFor="let subItem of getObjectKeys(output[item])">
                                 <p-fieldset [legend]="subItem" [toggleable]="true" *ngIf="isList(output[item][subItem]); else elseBlock">
-                                    <pre class="surface-100 border-round p-4">{{objectToDisplay(output[item][subItem])}}</pre>
+                                    <pre class="surface-100 border-round p-4">{{objectToDisplay(output[item][subItem], subItem)}}</pre>
                                 </p-fieldset>
                                 <ng-template #elseBlock>
-                                    <pre>{{subItem}}: {{objectToDisplay(output[item][subItem])}}</pre>
+                                    <pre>{{subItem}}: {{objectToDisplay(output[item][subItem], subItem)}}</pre>
                                 </ng-template>
                             </div>
                         </p-accordionTab>
