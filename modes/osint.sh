@@ -7,7 +7,7 @@ if [[ "$OSINT" = "1" ]]; then
 		echo -e "${OKGREEN}====================================================================================${RESET}•x${OKGREEN}[`date +"%Y-%m-%d](%H:%M)"`${RESET}x•"
 		echo -e "$OKRED STARTING PAGODO PASSIVE SCANNER $RESET"
 		echo -e "${OKGREEN}====================================================================================${RESET}•x${OKGREEN}[`date +"%Y-%m-%d](%H:%M)"`${RESET}x•"
-		cd $INSTALL_DIR/pagodo
+		cd $INSTALL_DIR/plugins/pagodo
 		if [[ "$PAGODO_PROXYCHAIN" == "1" ]]; then
 			proxychains4 python3 pagodo.py -d $TARGET -g $DORKS_FILE -i 10 -x 30 -m 2 -o $LOOT_DIR/osint/dorks-$TARGET.json>/dev/null &
 		elif [[ "$PAGODO_PROXYCHAIN" == "0" ]]; then

@@ -38,14 +38,20 @@ const wss = new ws.Server({ server });
 wss.on('connection', sock => {
   sock.on('message', function(msg) {
     const s = msg.toString();
-    console.log(s);
     if(s.startsWith("pls ")) {
       const scan = msg.toString().substring(4);
-      const path = `${workspacesFolder}${scan}`;
-      const e = shell.exec(`tail -n1000 -f ${path}/scan.out`, {async: true, silent: true});
-      e.stdout.on('data', function(data) {
-        sock.send(convert.toHtml(data));
-      })
+      const scans = fs.readdirSync(workspacesFolder, {withFileTypes: true}).filter(dir => dir.isDirectory()).map(dirent => dirent.name);
+      if(scans.includes(scan))
+      {
+        const path = `${workspacesFolder}${scan}`;
+        const e = shell.exec(`tail -n1000 -f ${path}/scan.out`, {async: true, silent: true});
+        e.stdout.on('data', function(data) {
+          sock.send(convert.toHtml(data));
+        })
+      }
+      else {
+        sock.send("No");
+      }
     }
     else if(s === "scans") {
       wsCons.push(sock);
@@ -61,25 +67,29 @@ wss.on('connection', sock => {
 //
 function executeShell(req, res) {
   const scan = req.query.scan;
-  const path = `${workspacesFolder}${scan}`;
-  const e = shell.exec(`yes Y | sudo bash ${path}/scan.sh > ${path}/scan.out`, {async: true});
-  console.log("Request to execute ", scan)
-
-  scanStatus[scan] = true;
-  fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
-    if(err) console.log(err);
-  });
-  wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
-  scanObjects[scan] = e;
-
-  e.stdout.on('end', function() {
-    scanStatus[scan] = false;
+  const scans = fs.readdirSync(workspacesFolder, {withFileTypes: true}).filter(dir => dir.isDirectory()).map(dirent => dirent.name);
+  if(scans.includes(scan))
+{
+    const path = `${workspacesFolder}${scan}`;
+    const e = shell.exec(`yes Y | sudo bash ${path}/scan.sh > ${path}/scan.out`, {async: true});
+  
+    scanStatus[scan] = true;
     fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
       if(err) console.log(err);
     });
     wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
-  })
-  res.sendStatus(200);
+    scanObjects[scan] = e;
+  
+    e.stdout.on('end', function() {
+      scanStatus[scan] = false;
+      fs.writeFile(scanStatusPath, JSON.stringify(scanStatus), err => {
+        if(err) console.log(err);
+      });
+      wsCons.forEach((s) => s.send(JSON.stringify(scanStatus)))
+    })
+    res.sendStatus(200);
+  }
+  res.sendStatus(400)
 }
 
 //
