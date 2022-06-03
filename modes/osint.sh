@@ -9,11 +9,11 @@ if [[ "$OSINT" = "1" ]]; then
 		echo -e "${OKGREEN}====================================================================================${RESET}•x${OKGREEN}[`date +"%Y-%m-%d](%H:%M)"`${RESET}x•"
 		cd $INSTALL_DIR/plugins/pagodo
 		if [[ "$PAGODO_PROXYCHAIN" == "1" ]]; then
-			proxychains4 python3 pagodo.py -d $TARGET -g $DORKS_FILE -i 10 -x 30 -m 2 -o $LOOT_DIR/osint/dorks-$TARGET.json>/dev/null &
+			proxychains4 python3 pagodo.py -d $TARGET -g $DORKS_FILE -i 10 -x 30 -m 2 -s $LOOT_DIR/osint/dorks-$TARGET.txt>/dev/null &
 		elif [[ "$PAGODO_PROXYCHAIN" == "0" ]]; then
-			python3 pagodo.py -d $TARGET -g $DORKS_FILE -i 10 -x 30 -m 2 -o $LOOT_DIR/osint/dorks-$TARGET.json>/dev/null &
+			python3 pagodo.py -d $TARGET -g $DORKS_FILE -i 10 -x 30 -m 2 -s $LOOT_DIR/osint/dorks-$TARGET.txt>/dev/null &
 		else
-			python3 pagodo.py -d $TARGET -g $DORKS_FILE -i 10 -x 30 -m 2 -o $LOOT_DIR/osint/dorks-$TARGET.json -p $PAGODO_PROXYCHAIN>/dev/null &
+			python3 pagodo.py -d $TARGET -g $DORKS_FILE -i 10 -x 30 -m 2 -s $LOOT_DIR/osint/dorks-$TARGET.txt -p $PAGODO_PROXYCHAIN>/dev/null &
 		fi
 	fi
 	if [[ "$WHOIS" == "1" ]]; then
