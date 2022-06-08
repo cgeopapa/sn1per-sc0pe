@@ -91,7 +91,7 @@ export class ScanDetailsComponent implements OnInit {
     if(subItem === "pwned_emails") {
       const ret = [];
       for(let pwned of obj) {
-        ret.push(`${pwned.email} found in ${pwned.Breaches.length} breaches. https://haveibeenpwned.com/unifiedsearch/${encodeURIComponent(pwned.email)}`)
+        ret.push(`${pwned.email} found in ${pwned.Breaches.length} breaches. Latest breach at ${new Date(Math.max.apply(Math, pwned.Breaches.map((b: any) => new Date(b.BreachDate)))).toLocaleDateString('en-US')}`)
       }
       return ret.join("\n");
     }
