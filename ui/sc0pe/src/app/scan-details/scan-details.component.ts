@@ -91,7 +91,18 @@ export class ScanDetailsComponent implements OnInit {
     if(subItem === "pwned_emails") {
       const ret = [];
       for(let pwned of obj) {
-        ret.push(`${pwned.email} found in ${pwned.Breaches.length} breaches. Latest breach at ${new Date(Math.max.apply(Math, pwned.Breaches.map((b: any) => new Date(b.BreachDate)))).toLocaleDateString('en-US')}`)
+        const breaches = pwned.Breaches? pwned.Breaches.length : 0;
+        const pastes = pwned.Pastes? pwned.Pastes.length : 0;
+        let lastBreach = new Date(0);
+        let lastPaste = new Date(0);
+        if (breaches !== 0) {
+          lastBreach = new Date(Math.max.apply(Math, pwned.Breaches.map((b: any) => new Date(b.BreachDate))));
+        }
+        if(pastes !== 0) {
+          lastPaste = new Date(Math.max.apply(Math, pwned.Pastes.map((b: any) => new Date(b.Date))));
+        }
+        const last = lastBreach > lastPaste ? lastBreach : lastPaste;
+        ret.push(`${pwned.email} found in ${breaches} breaches and in ${pastes} pastes. Latest breach at ${last.toLocaleDateString('en-US')}`)
       }
       return ret.join("\n");
     }
