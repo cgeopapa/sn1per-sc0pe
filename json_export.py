@@ -39,7 +39,8 @@ for dir in dirs:
         for file in files:
             name = os.path.splitext(file)
             if not any(word in name[0] for word in ["unsorted"]) and (name[1] not in [".xml", ".html", ".old", ".diff", ".pdf", ""]):
-                f = open(os.path.join(dirpath, file), "r", encoding="unicode_escape")
+                print(name)
+                f = open(os.path.join(dirpath, file), "r", encoding="utf-8")
                 found = False
                 if name[1] == ".json":
                     f = open(os.path.join(dirpath, file), "r")
